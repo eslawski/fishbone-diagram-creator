@@ -29,7 +29,7 @@ function findCauseById(causes: Cause[], targetId: number): Cause | null {
 
 
 const initialState: FishboneState = {
-  problem: "To many bugs in my code!",
+  problem: "Too many bugs in my code!",
   causes: [
     {
       id: 1,
@@ -73,13 +73,8 @@ export const fishboneSlice = createSlice({
   name: "fishbone",
   initialState,
   reducers: {
-    updateProblem: (state) => {
-      // Redux Toolkit allows us to write "mutating" logic in reducers. It
-      // doesn't actually mutate the state because it uses the Immer library,
-      // which detects changes to a "draft state" and produces a brand new
-      // immutable state based off those changes.
-      // Also, no return statement is required from these functions.
-      state.problem = "foo"
+    updateProblem: (state, action: PayloadAction<string>) => {
+      state.problem = action.payload
     },
     updateCause: (state, action: PayloadAction<{id: number, newName: string, newNotes: string}>) => {
       if (state.causes) {
