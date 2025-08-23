@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { Button, Collapse } from "antd";
 import { SisternodeOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import CauseModal from "./CauseModal";
+import CauseModal from "./EditCauseModal";
 import { type Cause } from "../slices/fishboneSlice";
+import NewCauseModal from "./NewCauseModal";
 
 
 interface CauseCollapseProps {
@@ -11,7 +12,8 @@ interface CauseCollapseProps {
 
 const CauseCollapse: React.FC<CauseCollapseProps> = ({ cause }) => {
   const { id, name, causes } = cause;
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditCauseModalOpen, setIsEditCauseModalOpen] = useState(false);
+  const [isNewCauseModalOpen, setIsNewCauseModalOpen] = useState(false);
 
   const genExtra = (id: number, name: string) => (
     <div>
@@ -20,8 +22,8 @@ const CauseCollapse: React.FC<CauseCollapseProps> = ({ cause }) => {
         size="small"
         icon={<EditOutlined />}
         onClick={(event) => {
-          setIsModalOpen(true);
-          event.stopPropagation();
+          setIsEditCauseModalOpen(true);
+          event.stopPropagation(); // Stops collapse from being triggered
         }}
       />
 
@@ -30,9 +32,8 @@ const CauseCollapse: React.FC<CauseCollapseProps> = ({ cause }) => {
         size="small"
         icon={<SisternodeOutlined />}
         onClick={(event) => {
-          alert(`Settings clicked for panel: ${id} ${name}`);
-          // If you don't want click extra trigger collapse, you can prevent this:
-          event.stopPropagation();
+          setIsNewCauseModalOpen(true);
+          event.stopPropagation(); // Stops collapse from being triggered
         }}
       />
 
@@ -69,10 +70,18 @@ const CauseCollapse: React.FC<CauseCollapseProps> = ({ cause }) => {
       />
       
       <CauseModal
-        isOpen={isModalOpen}
+        isOpen={isEditCauseModalOpen}
         cause={cause}
-        onOk={() => setIsModalOpen(false)}
-        onCancel={() => setIsModalOpen(false)}
+        onOk={() => setIsEditCauseModalOpen(false)}
+        onCancel={() => setIsEditCauseModalOpen(false)}
+      />
+
+      <NewCauseModal
+        isOpen={isNewCauseModalOpen}
+        parentCauseId={cause.id}
+        parentCauseName={cause.name}
+        onOk={() => setIsNewCauseModalOpen(false)}
+        onCancel={() => setIsNewCauseModalOpen(false)}
       />
     </div>
   );

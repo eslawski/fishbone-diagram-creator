@@ -1,23 +1,25 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Modal, Input, type InputRef } from "antd";
-import { type Cause, updateCauseName } from "../slices/fishboneSlice";
+import { addCause } from "../slices/fishboneSlice";
 import { useAppDispatch } from "../hooks";
 
-interface CauseModalProps {
+interface NewCauseModalProps {
+  parentCauseId: number;
+  parentCauseName: string;
   isOpen: boolean;
-  cause: Cause;
   onOk: () => void;
   onCancel: () => void;
 }
 
-const CauseModal: React.FC<CauseModalProps> = ({
+const NewCauseModal: React.FC<NewCauseModalProps> = ({
   isOpen,
-  cause,
+  parentCauseId,
+  parentCauseName,
   onOk,
   onCancel,
 }) => {
 
-  const [causeName, setCauseName] = useState(cause.name);
+  const [causeName, setCauseName] = useState("");
   const dispatch = useAppDispatch();
   const inputRef = useRef<InputRef>(null);
 
@@ -28,22 +30,25 @@ const CauseModal: React.FC<CauseModalProps> = ({
     }
   }, [isOpen]);
 
+  const handleOk = () => {
+    dispatch(addCause({ parentId: parentCauseId, newCauseName: causeName }))
+    setCauseName("")
+    onOk()
+  };
+
   return (
     <div>
       <Modal
-        title="Edit Cause"
+        title={`Cause of "${parentCauseName}"?`}
         centered
         open={isOpen}
-        onOk={() => {
-          dispatch(updateCauseName({ id: cause.id, name: causeName }))
-          onOk()
-        }}
+        onOk={handleOk}
         onCancel={onCancel}
       >
-        <Input ref={inputRef} value={causeName} autoFocus={true} onChange={(e) => setCauseName(e.target.value)} />
+        <Input ref={inputRef} value={causeName} autoFocus={true} onChange={(e) => setCauseName(e.target.value)} onPressEnter={handleOk} />
       </Modal>
     </div>
   );
 };
 
-export default CauseModal;
+export default NewCauseModal;

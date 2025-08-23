@@ -7,7 +7,7 @@ const DiagramPage: React.FC = () => {
   return (
     <div className="diagram-page" style={{display: "grid", gridTemplateColumns: "1fr 2fr"}}>
         <Generator />
-        <div>Evan</div>
+        <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>Diagram here soon</div>
     </div>
   );
 };

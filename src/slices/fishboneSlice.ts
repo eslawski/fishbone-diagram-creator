@@ -79,17 +79,30 @@ export const fishboneSlice = createSlice({
       // Also, no return statement is required from these functions.
       state.problem = "foo"
     },
-    updateCauseName: (state, action: PayloadAction<Cause>) => {
+    updateCauseName: (state, action: PayloadAction<{id: number, newName: string}>) => {
       if (state.causes) {
       const cause = findCauseById(state.causes, action.payload.id)
         if (cause) {
-          cause.name = action.payload.name
+          cause.name = action.payload.newName
+        }
+      }
+    },
+    addCause: (state, action: PayloadAction<{parentId: number, newCauseName: string}>) => {
+      if (state.causes) {
+        const parent = findCauseById(state.causes, action.payload.parentId)
+        
+        if (parent) {
+          const newCause: Cause = {
+            id: Math.floor(Math.random() * 10000000) + 1, // Should be dictated by server
+            name: action.payload.newCauseName,
+          }
+          parent.causes = [...parent.causes || [], newCause]
         }
       }
     }
   },
 })
 
-export const { updateProblem, updateCauseName } = fishboneSlice.actions
+export const { updateProblem, updateCauseName, addCause } = fishboneSlice.actions
 
 export default fishboneSlice.reducer
