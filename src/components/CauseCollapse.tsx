@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { Button, Collapse } from "antd";
 import { SisternodeOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import CauseModal from "./EditCauseModal";
+import CauseModal from "./CauseModal";
 import { deleteCause, type Cause } from "../slices/fishboneSlice";
-import NewCauseModal from "./NewCauseModal";
 import { useAppDispatch } from "../hooks";
 
 
@@ -52,12 +51,23 @@ const CauseCollapse: React.FC<CauseCollapseProps> = ({ cause }) => {
     </div>
   );
 
+  const children = (
+    <div>
+      <div style={{ marginBottom: 12, fontSize: 12, color: "gray", fontStyle:"italic" }}>
+        {cause.notes}
+      </div>
+      {
+        causes?.map((cause) => (
+          <CauseCollapse key={cause.id} cause={cause} />
+        ))
+      }
+    </div>
+  )
+
   const collapseItem = {
     key: 1, // Ensures all sections are expanded by default
     label: name,
-    children: causes?.map((cause) => (
-      <CauseCollapse key={cause.id} cause={cause} />
-    )),
+    children: children,
     showArrow: false,
     extra: genExtra(id),
   };
@@ -71,6 +81,7 @@ const CauseCollapse: React.FC<CauseCollapseProps> = ({ cause }) => {
         style={{ marginBottom: 12 }}
       />
       
+      {/* Edit Cause Modal */}
       <CauseModal
         isOpen={isEditCauseModalOpen}
         cause={cause}
@@ -78,10 +89,10 @@ const CauseCollapse: React.FC<CauseCollapseProps> = ({ cause }) => {
         onCancel={() => setIsEditCauseModalOpen(false)}
       />
 
-      <NewCauseModal
+      {/* New Cause Modal */}
+      <CauseModal
         isOpen={isNewCauseModalOpen}
         parentCauseId={cause.id}
-        parentCauseName={cause.name}
         onOk={() => setIsNewCauseModalOpen(false)}
         onCancel={() => setIsNewCauseModalOpen(false)}
       />

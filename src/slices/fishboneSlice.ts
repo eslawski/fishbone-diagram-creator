@@ -3,6 +3,7 @@ import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 export interface Cause {
   id: number
   name: string
+  notes?: string
   causes?: Cause[]
 }
 
@@ -37,6 +38,7 @@ const initialState: FishboneState = {
         {
           id: 2,
           name: "Cause 1.1",
+          notes: "This is a note for Cause 1.1",
           causes: [
             {
               id: 3,
@@ -79,15 +81,16 @@ export const fishboneSlice = createSlice({
       // Also, no return statement is required from these functions.
       state.problem = "foo"
     },
-    updateCauseName: (state, action: PayloadAction<{id: number, newName: string}>) => {
+    updateCause: (state, action: PayloadAction<{id: number, newName: string, newNotes: string}>) => {
       if (state.causes) {
       const cause = findCauseById(state.causes, action.payload.id)
         if (cause) {
           cause.name = action.payload.newName
+          cause.notes = action.payload.newNotes
         }
       }
     },
-    addCause: (state, action: PayloadAction<{parentId: number, newCauseName: string}>) => {
+    addCause: (state, action: PayloadAction<{parentId: number, newCauseName: string, notes?: string}>) => {
       if (state.causes) {
         const parent = findCauseById(state.causes, action.payload.parentId)
 
@@ -115,6 +118,6 @@ export const fishboneSlice = createSlice({
   }
 })
 
-export const { updateProblem, updateCauseName, addCause, deleteCause } = fishboneSlice.actions
+export const { updateProblem, updateCause, addCause, deleteCause } = fishboneSlice.actions
 
 export default fishboneSlice.reducer
