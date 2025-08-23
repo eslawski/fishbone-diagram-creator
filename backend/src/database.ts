@@ -728,6 +728,19 @@ export class Database {
     });
   }
 
+  public updateDiagram(userId: string, diagramId: string, problem: string, causes: object): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      this.db.run(
+        'UPDATE diagrams SET problem = ?, causes = ? WHERE user_id = ? AND id = ?',
+        [problem, JSON.stringify(causes), userId, diagramId],
+        function(err) {
+          if (err) reject(err);
+          else resolve(this.changes > 0);
+        }
+      );
+    });
+  }
+
   public close(): void {
     this.db.close();
   }

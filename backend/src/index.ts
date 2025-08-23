@@ -60,6 +60,44 @@ app.get('/user/:userId/diagram/:diagramId', async (req, res) => {
   }
 });
 
+// POST /user/{user_id}/diagram/{diagram_id} - Update specific diagram data
+app.post('/user/:userId/diagram/:diagramId', async (req, res) => {
+  try {
+    const { userId, diagramId } = req.params;
+    const { problem, causes } = req.body;
+    
+    // Validate required fields
+    if (!problem || !causes) {
+      return res.status(400).json({ error: 'Problem and causes are required' });
+    }
+    
+    // Check if diagram exists
+    const existingDiagram = await db.getDiagram(userId, diagramId);
+    if (!existingDiagram) {
+      return res.status(404).json({ error: 'Diagram not found' });
+    }
+    
+    // Update the diagram
+    const success = await db.updateDiagram(userId, diagramId, problem, causes);
+    
+    if (!success) {
+      return res.status(500).json({ error: 'Failed to update diagram' });
+    }
+    
+    // Return the updated diagram
+    const updatedDiagram = await db.getDiagram(userId, diagramId);
+    const diagramData = {
+      ...updatedDiagram,
+      causes: JSON.parse(updatedDiagram!.causes)
+    };
+    
+    res.json(diagramData);
+  } catch (error) {
+    console.error('Error updating diagram:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 // Health check endpoint
 app.get('/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() });
