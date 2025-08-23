@@ -14,18 +14,17 @@ export interface User {
   name: string;
 }
 
+export interface Cause {
+  id: number;
+  name: string;
+  causes?: Cause[];
+}
+
 export interface Diagram {
   id: string;
   user_id: string;
   problem: string;
-  causes: string; // JSON string from backend
-}
-
-export interface DiagramWithParsedCauses {
-  id: string;
-  user_id: string;
-  problem: string;
-  causes: any; // Parsed JSON object
+  causes: Cause[];
 }
 
 // User API calls
@@ -35,9 +34,11 @@ export const userAPI = {
 
 // Diagram API calls
 export const diagramAPI = {
-  getByUserId: (userId: string) => api.get<Diagram[]>(`/user/${userId}/diagrams`),
+getByUserId: (userId: string) => api.get<Diagram[]>(`/user/${userId}/diagrams`),
   getByUserIdAndId: (userId: string, diagramId: string) => 
-    api.get<DiagramWithParsedCauses>(`/user/${userId}/diagram/${diagramId}`),
+    api.get<Diagram>(`/user/${userId}/diagram/${diagramId}`),
+  updateDiagram: (userId: string, diagramId: string, problem: string, causes: Cause[]) =>
+    api.post<Diagram>(`/user/${userId}/diagram/${diagramId}`, {problem, causes}),
 };
 
 // Health check

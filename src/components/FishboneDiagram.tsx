@@ -61,9 +61,6 @@ const FishboneDiagram: React.FC = () => {
       <Fishbone
         items={items}
         reactFlowProps={{
-          onNodeMouseEnter: (event, node) => {
-            console.log(node);
-          },
           onViewportChange: () => {
             rootNodeHack(problem);
           },
