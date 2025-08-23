@@ -90,7 +90,7 @@ export const fishboneSlice = createSlice({
     addCause: (state, action: PayloadAction<{parentId: number, newCauseName: string}>) => {
       if (state.causes) {
         const parent = findCauseById(state.causes, action.payload.parentId)
-        
+
         if (parent) {
           const newCause: Cause = {
             id: Math.floor(Math.random() * 10000000) + 1, // Should be dictated by server
@@ -99,10 +99,22 @@ export const fishboneSlice = createSlice({
           parent.causes = [...parent.causes || [], newCause]
         }
       }
+    },
+    deleteCause: (state, action: PayloadAction<{id: number}>) => {
+      const removeCause = (causes: Cause[]): Cause[] =>
+        causes.filter(c => {
+          if (c.id === action.payload.id) return false
+          if (c.causes) c.causes = removeCause(c.causes)
+          return true
+        })
+    
+      if (state.causes) {
+        state.causes = removeCause(state.causes)
+      }
     }
-  },
+  }
 })
 
-export const { updateProblem, updateCauseName, addCause } = fishboneSlice.actions
+export const { updateProblem, updateCauseName, addCause, deleteCause } = fishboneSlice.actions
 
 export default fishboneSlice.reducer

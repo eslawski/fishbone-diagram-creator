@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { Button, Collapse } from "antd";
 import { SisternodeOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import CauseModal from "./EditCauseModal";
-import { type Cause } from "../slices/fishboneSlice";
+import { deleteCause, type Cause } from "../slices/fishboneSlice";
 import NewCauseModal from "./NewCauseModal";
+import { useAppDispatch } from "../hooks";
+
 
 
 interface CauseCollapseProps {
@@ -14,8 +16,9 @@ const CauseCollapse: React.FC<CauseCollapseProps> = ({ cause }) => {
   const { id, name, causes } = cause;
   const [isEditCauseModalOpen, setIsEditCauseModalOpen] = useState(false);
   const [isNewCauseModalOpen, setIsNewCauseModalOpen] = useState(false);
+  const dispatch = useAppDispatch();
 
-  const genExtra = (id: number, name: string) => (
+  const genExtra = (id: number) => (
     <div>
       <Button
         type="text"
@@ -42,9 +45,8 @@ const CauseCollapse: React.FC<CauseCollapseProps> = ({ cause }) => {
         size="small"
         icon={<DeleteOutlined />}
         onClick={(event) => {
-          alert(`Settings clicked for panel: ${id} ${name}`);
-          // If you don't want click extra trigger collapse, you can prevent this:
-          event.stopPropagation();
+          dispatch(deleteCause({ id: id }))
+          event.stopPropagation(); // Stops collapse from being triggered
         }}
       />
     </div>
@@ -57,7 +59,7 @@ const CauseCollapse: React.FC<CauseCollapseProps> = ({ cause }) => {
       <CauseCollapse key={cause.id} cause={cause} />
     )),
     showArrow: false,
-    extra: genExtra(id, name),
+    extra: genExtra(id),
   };
 
   // To make sections collapsible, change activeKey to defaultActiveKey
