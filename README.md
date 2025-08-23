@@ -1,15 +1,22 @@
 # Fishbone Diagram Creator
 
-This is a React-based application for creating fishbone diagrams (also known as Ishikawa diagrams or cause-and-effect diagrams) with a full-stack architecture including user and diagram management.
+A full-stack application for creating and managing fishbone (Ishikawa) diagrams with a React frontend and Express.js backend.
 
 ## Features
 
-- **Integrated User & Diagram Management**: Manage users and diagrams directly within the main interface
-- **Inline Diagram Operations**: Create, rename, and delete diagrams without leaving the main view
-- **Dynamic Sidebar Navigation**: Add new diagrams via user dropdown menus
-- **SQLite Database**: Persistent storage for users and diagrams
-- **Express Backend**: RESTful API for data operations
-- **React Frontend**: Modern UI with Ant Design components
+### Frontend
+- **Interactive Fishbone Diagrams**: Create, edit, and visualize cause-and-effect relationships
+- **Editable Headings**: Inline editing for problem titles and cause names
+- **Modern UI**: Built with React, TypeScript, and Ant Design
+- **State Management**: Redux Toolkit for application state
+- **Responsive Design**: Works on desktop and mobile devices
+
+### Backend
+- **Express.js Server**: RESTful API endpoints
+- **SQLite Database**: Local database with automatic schema creation
+- **User Management**: Store and retrieve user information
+- **Diagram Persistence**: Save and load fishbone diagrams
+- **Seed Data**: Pre-populated with sample users and diagrams
 
 ## Project Structure
 
@@ -17,140 +24,131 @@ This is a React-based application for creating fishbone diagrams (also known as 
 fishbone-diagram-creator/
 ├── src/                    # Frontend React application
 │   ├── components/         # React components
-│   │   ├── AppLayout.tsx   # Main layout with sidebar navigation
-│   │   └── DiagramView.tsx # Integrated diagram view with inline editing
-│   ├── services/           # API services
-│   │   └── api.ts         # Backend communication
+│   ├── slices/            # Redux slices
+│   ├── services/          # API services
 │   └── ...
-├── server/                 # Backend Express server
-│   ├── server.js          # Main server file
-│   ├── init-db.js         # Database initialization
-│   └── package.json       # Backend dependencies
-└── setup-backend.sh       # Backend setup script
+├── backend/               # Express.js backend server
+│   ├── src/              # TypeScript source code
+│   ├── db/               # SQLite database files
+│   └── package.json      # Backend dependencies
+└── package.json          # Frontend dependencies
 ```
 
 ## Quick Start
 
-### 1. Install Frontend Dependencies
+### Prerequisites
+- Node.js (v18 or higher)
+- npm or yarn
+
+### 1. Install Dependencies
 
 ```bash
+# Install frontend dependencies
 npm install
+
+# Install backend dependencies
+cd backend
+npm install
+cd ..
 ```
 
-### 2. Setup Backend
+### 2. Start the Application
 
+#### Option A: Start Both Servers (Recommended)
 ```bash
-# Run the setup script (macOS/Linux)
-./setup-backend.sh
-
-# Or manually:
-cd server
-npm install
-npm run init-db
+npm run dev:full
 ```
 
-### 3. Start the Backend Server
+This will start:
+- Frontend: http://localhost:5173 (or next available port)
+- Backend: http://localhost:3001
 
+#### Option B: Start Servers Separately
+
+**Terminal 1 - Frontend:**
 ```bash
-cd server
 npm run dev
 ```
 
-The backend will start on http://localhost:3001
-
-### 4. Start the Frontend
-
+**Terminal 2 - Backend:**
 ```bash
+cd backend
 npm run dev
 ```
 
-The frontend will start on http://localhost:5173
+### 3. Access the Application
 
-## Workflow
+- **Main App**: http://localhost:5173
+- **New Diagram**: http://localhost:5173/new
+- **Backend Test**: http://localhost:5173/backend-test
+- **API Health Check**: http://localhost:3001/health
 
-### Creating New Diagrams
-1. **Via Sidebar**: Click on any user's dropdown in the sidebar
-2. **Add Diagram Option**: Select the "+ Add Diagram" option (appears first in each user's menu)
-3. **Enter Name**: Type the diagram name in the main content area
-4. **Create**: Click "Create Diagram" or press Enter
-
-### Managing Existing Diagrams
-- **Rename**: Click the "Rename" button next to the diagram title
-- **Delete**: Click the "Delete" button (with confirmation dialog)
-- **View Details**: See owner, creation date, and content in the main view
-
-### Navigation
-- **User Dropdowns**: Expand to see all diagrams for that user
-- **Diagram Selection**: Click any diagram to view and edit it
-- **Breadcrumb Navigation**: URL updates automatically when switching between diagrams
-
-## API Endpoints
+## Backend API Endpoints
 
 ### Users
-- `GET /api/users` - Get all users
-- `GET /api/users/:id` - Get user by ID
-- `POST /api/users` - Create new user
-- `PUT /api/users/:id` - Update user
-- `DELETE /api/users/:id` - Delete user
+- `GET /users` - Get all users
 
 ### Diagrams
-- `GET /api/diagrams` - Get all diagrams
-- `GET /api/diagrams/:id` - Get diagram by ID
-- `GET /api/users/:userId/diagrams` - Get diagrams by user
-- `POST /api/diagrams` - Create new diagram
-- `PUT /api/diagrams/:id` - Update diagram
-- `DELETE /api/diagrams/:id` - Delete diagram
+- `GET /user/{user_id}/diagrams` - Get all diagrams for a user
+- `GET /user/{user_id}/diagram/{diagram_id}` - Get specific diagram with parsed causes
+
+### Health
+- `GET /health` - Server health check
 
 ## Database Schema
 
 ### Users Table
-- `id` (TEXT, PRIMARY KEY): Unique user identifier (UUID)
-- `name` (TEXT): User's full name
-- `email` (TEXT, UNIQUE): User's email address
-- `created_at` (DATETIME): User creation timestamp
+- `id` (TEXT, PRIMARY KEY): UUID for user identification
+- `name` (TEXT): User's display name
 
 ### Diagrams Table
-- `id` (INTEGER, PRIMARY KEY): Auto-incrementing diagram ID
-- `name` (TEXT): Diagram name
-- `user_id` (TEXT): Foreign key to users table
-- `content` (TEXT): JSON string containing diagram data
-- `created_at` (DATETIME): Diagram creation timestamp
-- `updated_at` (DATETIME): Last update timestamp
+- `id` (TEXT, PRIMARY KEY): UUID for diagram identification
+- `user_id` (TEXT, FOREIGN KEY): Reference to users table
+- `problem` (TEXT): The main problem statement
+- `causes` (TEXT): JSON blob containing the causes structure
 
-## Sample Data
+## Seed Data
 
-The database includes sample users and diagrams to get you started:
-
-- **John Doe**: Product Quality Analysis, Customer Service Issues, Manufacturing Process
-- **Jane Smith**: Marketing Strategy, Sales Performance
-- **Mike Johnson**: IT Infrastructure, Security Assessment, System Architecture
+The backend automatically creates:
+- 5 sample users (Alice, Bob, Carol, David, Eva)
+- 1 sample diagram for the first user with realistic fishbone data
 
 ## Development
 
+### Frontend Development
+```bash
+npm run dev          # Start Vite dev server
+npm run build        # Build for production
+npm run lint         # Run ESLint
+```
+
+### Backend Development
+```bash
+cd backend
+npm run dev          # Start with nodemon (auto-restart)
+npm run build        # Build TypeScript
+npm start            # Start production build
+```
+
+### Database
+- SQLite database file: `backend/db/fishbone.db`
+- Database is automatically created and seeded on first run
+- Schema is automatically created if it doesn't exist
+
+## Technologies Used
+
 ### Frontend
-- React 19 with TypeScript
+- React 18 with TypeScript
+- Redux Toolkit for state management
 - Ant Design for UI components
 - React Router for navigation
-- Axios for API communication
+- Vite for build tooling
 
 ### Backend
-- Express.js web framework
-- SQLite3 database
-- CORS enabled for cross-origin requests
-- UUID generation for unique identifiers
-
-## Scripts
-
-### Frontend
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build
-- `npm run lint` - Run ESLint
-
-### Backend
-- `npm start` - Start production server
-- `npm run dev` - Start development server with auto-reload
-- `npm run init-db` - Initialize database with sample data
+- Express.js with TypeScript
+- SQLite3 for database
+- UUID for unique identifiers
+- CORS enabled for frontend integration
 
 ## Contributing
 
@@ -162,4 +160,4 @@ The database includes sample users and diagrams to get you started:
 
 ## License
 
-This project is open source and available under the MIT License.
+This project is licensed under the ISC License.
