@@ -1,11 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Modal, Input, type InputRef, Form } from "antd";
-import { type Cause, updateCause, addCause } from "../slices/fishboneSlice";
+import { type Cause, updateCause, addCause, addCauseCategory } from "../slices/fishboneSlice";
 import { useAppDispatch } from "../hooks";
 
 interface CauseModalProps {
   isOpen: boolean;
-  parentCauseId?: number;
+  heading: string;
+  parentCauseId?: number; // Undefined when adding a cause category
   cause?: Cause;
   onOk: () => void;
   onCancel: () => void;
@@ -15,6 +16,7 @@ const CauseModal: React.FC<CauseModalProps> = ({
   isOpen,
   cause,
   parentCauseId,
+  heading,
   onOk,
   onCancel,
 }) => {
@@ -46,10 +48,11 @@ const CauseModal: React.FC<CauseModalProps> = ({
     if (isExistingCause) {
       dispatch(updateCause({ id: cause.id, newName: values.name, newNotes: values.notes }));
     } else {
-      if (!parentCauseId) {
-        throw new Error("ParentId is required when adding a new cause");
+      if (parentCauseId) {
+        dispatch(addCause({ parentId: parentCauseId, newCauseName: values.name, notes: values?.notes }));
+      } else {
+        dispatch(addCauseCategory({ newCauseCategoryName: values.name, notes: values?.notes }));
       }
-      dispatch(addCause({ parentId: parentCauseId, newCauseName: values.name, notes: values?.notes }));
     }
     onOk();
   };
@@ -62,7 +65,7 @@ const CauseModal: React.FC<CauseModalProps> = ({
   return (
     <div>
       <Modal
-        title="Edit Cause"
+        title={heading}
         centered
         open={isOpen}
         onOk={handleOk}

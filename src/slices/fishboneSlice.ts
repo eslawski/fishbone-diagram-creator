@@ -103,6 +103,14 @@ export const fishboneSlice = createSlice({
         }
       }
     },
+    addCauseCategory: (state, action: PayloadAction<{newCauseCategoryName: string, notes?: string}>) => {
+      const newCauseCategory: Cause = {
+        id: Math.floor(Math.random() * 10000000) + 1, // Should be dictated by server
+        name: action.payload.newCauseCategoryName,
+        notes: action.payload.notes,
+      }
+      state.causes = [...state.causes || [], newCauseCategory]
+    },
     deleteCause: (state, action: PayloadAction<{id: number}>) => {
       const removeCause = (causes: Cause[]): Cause[] =>
         causes.filter(c => {
@@ -118,6 +126,6 @@ export const fishboneSlice = createSlice({
   }
 })
 
-export const { updateProblem, updateCause, addCause, deleteCause } = fishboneSlice.actions
+export const { updateProblem, updateCause, addCause, deleteCause, addCauseCategory } = fishboneSlice.actions
 
 export default fishboneSlice.reducer
