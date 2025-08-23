@@ -29,7 +29,7 @@ function findCauseById(causes: Cause[], targetId: number): Cause | null {
 
 
 const initialState: FishboneState = {
-  problem: "The problem",
+  problem: "To many bugs in my code!",
   causes: [
     {
       id: 1,
