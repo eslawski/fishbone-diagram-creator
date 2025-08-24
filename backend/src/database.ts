@@ -89,7 +89,7 @@ export class Database {
       // Alice Johnson - Software Development Issues
       const aliceDiagrams = [
         {
-          problem: "Too many bugs in production code!",
+          problem: "Too many bugs in production code",
           causes: [
             {
               id: uuidv4(),
@@ -671,40 +671,68 @@ export class Database {
           ]
         },
         {
-          problem: "Production delays and missed deadlines",
+          problem: "Missed Deadline (spec)",
           causes: [
             {
               id: uuidv4(),
-              name: "Equipment Issues",
+              name: "Materials",
               causes: [
-                { id: uuidv4(), name: "Maintenance Schedule", causes: [] },
-                { id: uuidv4(), name: "Breakdown Frequency", causes: [] }
+                { id: uuidv4(), name: "Unstable desk", causes: [] },
+                { id: uuidv4(), name: "No printer paper", causes: [] },
+                { id: uuidv4(), name: "Out of pens", causes: [] },
+                { id: uuidv4(), name: "Squeaky desk chair", causes: [] },
               ]
             },
             {
               id: uuidv4(),
-              name: "Supply Chain",
+              name: "Measurement",
               causes: [
-                { id: uuidv4(), name: "Vendor Reliability", causes: [] },
-                { id: uuidv4(), name: "Inventory Management", causes: [] }
+                { id: uuidv4(), name: "No timesheet", causes: [] },
+                { id: uuidv4(), name: "Lack of accountability", causes: [] },
+                { id: uuidv4(), name: "No short term goals", causes: [] },
+                { id: uuidv4(), name: "Did not track progress", causes: [] },
               ]
             },
             {
               id: uuidv4(),
-              name: "Workforce",
+              name: "Environment",
               causes: [
-                { id: uuidv4(), name: "Staffing Levels", causes: [] },
-                { id: uuidv4(), name: "Skill Availability", causes: [] }
+                { id: uuidv4(), name: "Fluorescent lights", causes: [] },
+                { id: uuidv4(), name: "Small cubicle", causes: [] },
+                { id: uuidv4(), name: "Office too cold", causes: [] },
+                { id: uuidv4(), name: "Noisy coworkers", causes: [] }
               ]
             },
             {
               id: uuidv4(),
-              name: "Planning",
+              name: "Method",
               causes: [
-                { id: uuidv4(), name: "Production Scheduling", causes: [] },
-                { id: uuidv4(), name: "Capacity Planning", causes: [] }
+                { id: uuidv4(), name: "Lack of planning", causes: [] },
+                { id: uuidv4(), name: "Unforseen circumstances", causes: [] },
+                { id: uuidv4(), name: "Poor prioritization", causes: [] },
+                { id: uuidv4(), name: "Bureaucratic", causes: [] },
               ]
-            }
+            },
+            {
+                id: uuidv4(),
+                name: "Machine",
+                causes: [
+                  { id: uuidv4(), name: "Coffee machine broken", causes: [] },
+                  { id: uuidv4(), name: "Car wouldn't start", causes: [] },
+                  { id: uuidv4(), name: "Poor internet connection", causes: [] },
+                  { id: uuidv4(), name: "Slow computer", causes: [] },
+                ]
+              },
+              {
+                id: uuidv4(),
+                name: "People",
+                causes: [
+                  { id: uuidv4(), name: "Lack of communication from client", causes: [] },
+                  { id: uuidv4(), name: "Sick children", causes: [] },
+                  { id: uuidv4(), name: "Absent secretary", causes: [] },
+                  { id: uuidv4(), name: "Micro-managing boss", causes: [] },
+                ]
+              }
           ]
         }
       ];
