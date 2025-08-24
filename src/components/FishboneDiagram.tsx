@@ -54,9 +54,13 @@ const FishboneDiagram: React.FC<FishboneDiagramProps> = ({ diagram }) => {
     children: transformCausesToNodes(causes),
   };
 
+  // Create a unique key that changes when diagram changes to force complete rerender
+  const diagramKey = JSON.stringify(diagram);
+
   return (
     <div style={{ width: "100%", height: "100%" }}>
       <Fishbone
+        key={diagramKey}
         items={items}
         reactFlowProps={{
           onViewportChange: () => {
