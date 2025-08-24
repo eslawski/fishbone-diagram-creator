@@ -17,12 +17,11 @@ export interface User {
 export interface Cause {
   id: number;
   name: string;
-  causes?: Cause[];
+  causes: Cause[];
 }
 
 export interface Diagram {
   id: string;
-  user_id: string;
   problem: string;
   causes: Cause[];
 }
@@ -34,11 +33,12 @@ export const userAPI = {
 
 // Diagram API calls
 export const diagramAPI = {
-getByUserId: (userId: string) => api.get<Diagram[]>(`/user/${userId}/diagrams`),
+  getByUserId: (userId: string) => api.get<Diagram[]>(`/user/${userId}/diagrams`),
   getByUserIdAndId: (userId: string, diagramId: string) => 
     api.get<Diagram>(`/user/${userId}/diagram/${diagramId}`),
-  updateDiagram: (userId: string, diagramId: string, problem: string, causes: Cause[]) =>
-    api.post<Diagram>(`/user/${userId}/diagram/${diagramId}`, {problem, causes}),
+  getById: (diagramId: string) => api.get<Diagram>(`/diagram/${diagramId}`),
+  updateDiagram: (diagram: Diagram) =>
+    api.post<Diagram>(`/diagram/${diagram.id}`, diagram),
 };
 
 // Health check

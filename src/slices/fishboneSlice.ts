@@ -1,5 +1,5 @@
-import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import { diagramAPI } from "../services/api";
+import { createSlice, type GetThunkAPI, type AsyncThunkConfig } from "@reduxjs/toolkit";
+import { diagramAPI, type Diagram } from "../services/api";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
 
@@ -13,37 +13,120 @@ export interface Cause {
 export interface FishboneState {
   status: "idle" | "pending" | "succeeded" | "failed";
   error: string | null;
-  problem: string | null;
-  causes?: Cause[] | null;
+  diagram: Diagram | null
+}
+
+// Helper function to get the current diagram from the state as deep copy because of immer
+function getCurrentDiagram(thunkAPI: GetThunkAPI<AsyncThunkConfig>): Diagram {
+  const state = thunkAPI.getState() as RootState;
+
+  const diagram = state.fishbone.diagram;
+  if (!diagram) {
+    throw new Error("Unable to add cause: diagram is not loaded");
+  }
+  
+  return JSON.parse(JSON.stringify(diagram)) as Diagram;
 }
 
 export const fetchDiagram = createAsyncThunk(
   "diagram/fetchDiagram",
-  async ({ userId, diagramId }: { userId: string; diagramId: string }) => {
-    const response = await diagramAPI.getByUserIdAndId(userId, diagramId);
+  async ({ diagramId }: { diagramId: string }) => {
+    const response = await diagramAPI.getById(diagramId);
     return response.data;
   }
 );
 
-export const updateDiagram = createAsyncThunk(
-  "diagram/updateDiagram",
-  async ({
-    userId,
-    diagramId,
-    problem,
-    causes,
-  }: {
-    userId: string;
-    diagramId: string;
-    problem: string;
-    causes?: Cause[];
-  }) => {
-    const response = await diagramAPI.updateDiagram(
-      userId,
-      diagramId,
-      problem,
-      causes || []
-    );
+export const updateProblem = createAsyncThunk(
+  "diagram/updateProblem",
+  async ({problem}: {problem: string}, thunkAPI) => {
+    const updatedDiagram: Diagram = getCurrentDiagram(thunkAPI);
+
+    updatedDiagram.problem = problem;
+
+    const response = await diagramAPI.updateDiagram(updatedDiagram);
+    return response.data;
+  }
+);
+
+export const addCause = createAsyncThunk(
+  "diagram/addCause",
+  async ({parentId, causeName, notes}: {parentId: number, causeName: string, notes?: string}, thunkAPI) => {
+    const updatedDiagram: Diagram = getCurrentDiagram(thunkAPI);
+
+    // Update diagram before sending to server
+    const parentCause = findCauseById(updatedDiagram.causes, parentId);
+
+    if (!parentCause) {
+      throw new Error(`Unable to add cause: parent cause ${parentId} not found`);
+    }
+
+    const newCause: Cause = {
+      id: Math.floor(Math.random() * 10000000) + 1, // TODO make UUID
+      name: causeName,
+      notes: notes,
+      causes: [],
+    };
+
+    parentCause.causes = [...parentCause.causes, newCause];
+
+    const response = await diagramAPI.updateDiagram(updatedDiagram);
+    return response.data;
+  }
+);
+
+export const updateCause = createAsyncThunk(
+  "diagram/updateCause",
+  async ({causeId, causeName, notes}: {causeId: number, causeName: string, notes?: string}, thunkAPI) => {
+    const updatedDiagram: Diagram = getCurrentDiagram(thunkAPI);
+
+    // Update diagram before sending to server
+    const cause = findCauseById(updatedDiagram.causes, causeId);
+
+    if (!cause) {
+      throw new Error(`Unable to update cause: cause ${causeId} not found`);
+    }
+
+    cause.name = causeName;
+    cause.notes = notes;
+
+    const response = await diagramAPI.updateDiagram(updatedDiagram);
+    return response.data;
+  }
+);
+
+export const deleteCause = createAsyncThunk(
+  "diagram/deleteCause",
+  async ({causeId}: {causeId: number}, thunkAPI) => {
+    const updatedDiagram: Diagram = getCurrentDiagram(thunkAPI);
+
+    const removeCause = (causes: Cause[]): Cause[] =>
+      causes.filter((c) => {
+        if (c.id === causeId) return false;
+        if (c.causes) c.causes = removeCause(c.causes);
+        return true;
+      });
+
+    updatedDiagram.causes = removeCause(updatedDiagram.causes);
+
+    const response = await diagramAPI.updateDiagram(updatedDiagram);
+    return response.data;
+  }
+);
+
+export const addCauseCategory = createAsyncThunk(
+  "diagram/addCauseCategory",
+  async ({categoryName, notes}: {categoryName: string, notes?: string}, thunkAPI) => {
+    const updatedDiagram: Diagram = getCurrentDiagram(thunkAPI);
+
+    const newCauseCategory: Cause = {
+      id: Math.floor(Math.random() * 10000000) + 1, // TODO make UUID
+      name: categoryName,
+      notes: notes,
+      causes: [],
+    };
+    updatedDiagram.causes = [...updatedDiagram.causes, newCauseCategory];
+
+    const response = await diagramAPI.updateDiagram(updatedDiagram);
     return response.data;
   }
 );
@@ -66,8 +149,7 @@ function findCauseById(causes: Cause[], targetId: number): Cause | null {
 const initialState: FishboneState = {
   status: "idle",
   error: null,
-  problem: null,
-  causes: [],
+  diagram: null
 };
 
 export const fishboneSlice = createSlice({
@@ -77,61 +159,71 @@ export const fishboneSlice = createSlice({
     // updateProblem: (state, action: PayloadAction<string>) => {
     //   state.problem = action.payload;
     // },
-    updateCause: (
-      state,
-      action: PayloadAction<{ id: number; newName: string; newNotes: string }>
-    ) => {
-      if (state.causes) {
-        const cause = findCauseById(state.causes, action.payload.id);
-        if (cause) {
-          cause.name = action.payload.newName;
-          cause.notes = action.payload.newNotes;
-        }
-      }
-    },
-    addCause: (
-      state,
-      action: PayloadAction<{
-        parentId: number;
-        newCauseName: string;
-        notes?: string;
-      }>
-    ) => {
-      if (state.causes) {
-        const parent = findCauseById(state.causes, action.payload.parentId);
+    // updateCause: (
+    //   state,
+    //   action: PayloadAction<{ id: number; newName: string; newNotes: string }>
+    // ) => {
+    //   if (state.diagram?.causes) {
+    //     const cause = findCauseById(state.diagram.causes, action.payload.id);
+    //     if (cause) {
+    //       cause.name = action.payload.newName;
+    //       cause.notes = action.payload.newNotes;
+    //     }
+    //   }
+    // },
+    // addCause: (
+    //   state,
+    //   action: PayloadAction<{
+    //     parentId: number;
+    //     newCauseName: string;
+    //     notes?: string;
+    //   }>
+    // ) => {
+    //   if (state.diagram?.causes) {
+    //     const parent = findCauseById(state.diagram.causes, action.payload.parentId);
 
-        if (parent) {
-          const newCause: Cause = {
-            id: Math.floor(Math.random() * 10000000) + 1, // Should be dictated by server
-            name: action.payload.newCauseName,
-          };
-          parent.causes = [...(parent.causes || []), newCause];
-        }
-      }
-    },
-    addCauseCategory: (
-      state,
-      action: PayloadAction<{ newCauseCategoryName: string; notes?: string }>
-    ) => {
-      const newCauseCategory: Cause = {
-        id: Math.floor(Math.random() * 10000000) + 1, // Should be dictated by server
-        name: action.payload.newCauseCategoryName,
-        notes: action.payload.notes,
-      };
-      state.causes = [...(state.causes || []), newCauseCategory];
-    },
-    deleteCause: (state, action: PayloadAction<{ id: number }>) => {
-      const removeCause = (causes: Cause[]): Cause[] =>
-        causes.filter((c) => {
-          if (c.id === action.payload.id) return false;
-          if (c.causes) c.causes = removeCause(c.causes);
-          return true;
-        });
+    //     if (parent) {
+    //       const newCause: Cause = {
+    //         id: Math.floor(Math.random() * 10000000) + 1, // Should be dictated by server
+    //         name: action.payload.newCauseName,
+    //         causes: [],
+    //       };
+    //       parent.causes = [...(parent.causes || []), newCause];
+    //     }
+    //   }
+    // },
+    // addCauseCategory: (
+    //   state,
+    //   action: PayloadAction<{ newCauseCategoryName: string; notes?: string }>
+    // ) => {
+    //   if (!state.diagram) {
+    //     state.diagram = {
+    //       id: "",
+    //       problem: "",
+    //       causes: []
+    //     };
+    //   }
+      
+    //   const newCauseCategory: Cause = {
+    //     id: Math.floor(Math.random() * 10000000) + 1, // Should be dictated by server
+    //     name: action.payload.newCauseCategoryName,
+    //     notes: action.payload.notes,
+    //     causes: [],
+    //   };
+    //   state.diagram.causes = [...state.diagram.causes, newCauseCategory];
+    // },
+    // deleteCause: (state, action: PayloadAction<{ id: number }>) => {
+    //   const removeCause = (causes: Cause[]): Cause[] =>
+    //     causes.filter((c) => {
+    //       if (c.id === action.payload.id) return false;
+    //       if (c.causes) c.causes = removeCause(c.causes);
+    //       return true;
+    //     });
 
-      if (state.causes) {
-        state.causes = removeCause(state.causes);
-      }
-    },
+    //   if (state.diagram?.causes) {
+    //     state.diagram.causes = removeCause(state.diagram.causes);
+    //   }
+    // },
   },
   extraReducers: (builder) => {
     builder
@@ -140,36 +232,73 @@ export const fishboneSlice = createSlice({
       })
       .addCase(fetchDiagram.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.causes = action.payload.causes as Cause[];
-        state.problem = action.payload.problem;
+        state.diagram = action.payload
       })
       .addCase(fetchDiagram.rejected, (state) => {
         state.status = "failed";
         state.error = "Failed to fetch diagram";
+        state.diagram = null;
       })
-      .addCase(updateDiagram.pending, (state) => {
+      .addCase(addCause.pending, (state) => {
         state.status = "pending";
       })
-      .addCase(updateDiagram.fulfilled, (state, action) => {
+      .addCase(addCause.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.causes = action.payload.causes as Cause[];
-        state.problem = action.payload.problem;
+        state.diagram = action.payload;
       })
-      .addCase(updateDiagram.rejected, (state) => {
+      .addCase(addCause.rejected, (state) => {
         state.status = "failed";
-        state.error = "Failed to update diagram";
+        state.error = "Failed to add cause";
+      })
+      .addCase(updateCause.pending, (state) => {
+        state.status = "pending";
+      })
+      .addCase(updateCause.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.diagram = action.payload;
+      })
+      .addCase(updateCause.rejected, (state) => {
+        state.status = "failed";
+        state.error = "Failed to update cause";
+      })
+      .addCase(addCauseCategory.pending, (state) => {
+        state.status = "pending";
+      })
+      .addCase(addCauseCategory.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.diagram = action.payload;
+      })
+      .addCase(addCauseCategory.rejected, (state) => {
+        state.status = "failed";
+        state.error = "Failed to add cause category";
+      })
+      .addCase(deleteCause.pending, (state) => {
+        state.status = "pending";
+      })
+      .addCase(deleteCause.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.diagram = action.payload;
+      })
+      .addCase(deleteCause.rejected, (state) => {
+        state.status = "failed";
+        state.error = "Failed to delete cause";
+      })
+      .addCase(updateProblem.pending, (state) => {
+        state.status = "pending";
+      })
+      .addCase(updateProblem.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.diagram = action.payload;
+      })
+      .addCase(updateProblem.rejected, (state) => {
+        state.status = "failed";
+        state.error = "Failed to update problem";
       });
   },
 });
 
-export const {
-  updateCause,
-  addCause,
-  deleteCause,
-  addCauseCategory,
-} = fishboneSlice.actions;
+// export const {
+//   deleteCause,
+// } = fishboneSlice.actions;
 
 export default fishboneSlice.reducer;
-
-export const selectDiagram = (state: RootState) => state.fishbone.problem;
-export const selectDiagramStatus = (state: RootState) => state.fishbone.status;

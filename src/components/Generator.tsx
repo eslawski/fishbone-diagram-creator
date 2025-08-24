@@ -1,36 +1,35 @@
 import React, { useState } from "react";
-import { useAppSelector, useAppDispatch } from "../hooks";
+import { useAppDispatch } from "../hooks";
 import { Button } from "antd";
-import { updateDiagram } from "../slices/fishboneSlice";
+import { updateProblem } from "../slices/fishboneSlice";
 
 import CauseCollapse from "./CauseCollapse";
 import CauseModal from "./CauseModal";
 import EditableHeading from "./EditableHeading";
+import type { Diagram } from "../services/api";
 
-const Generator: React.FC = () => {
-  // The `state` arg is correctly typed as `RootState` already
-  const causes = useAppSelector((state) => state.fishbone.causes);
-  const problem = useAppSelector((state) => state.fishbone.problem);
+interface GeneratorProps {
+  diagram: Diagram;
+}
+
+const Generator: React.FC<GeneratorProps> = ({ diagram }) => {
+  const { problem, causes } = diagram;
   const dispatch = useAppDispatch();
 
   const [isAddCauseCategoryModalOpen, setIsAddCauseCategoryModalOpen] =
     useState(false);
 
   const handleProblemUpdated = (newValue: string) => {
+    console.log("handleProblemUpdated", newValue);
     dispatch(
-      updateDiagram({
-        userId: "4bcfb57e-7d27-434d-8c6a-5ce86b5d0aa7",
-        diagramId: "cd52c7e2-0712-4646-9fbb-f3de4b0cc756",
-        problem: newValue,
-        causes: causes || [],
-      })
+      updateProblem({problem: newValue})
     );
   };
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
       <EditableHeading
-        value={problem || "Empty!"}
+        value={problem}
         onSave={handleProblemUpdated}
         level={1}
       />

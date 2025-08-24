@@ -55,7 +55,7 @@ const CauseCollapse: React.FC<CauseCollapseProps> = ({
           size="small"
           icon={<DeleteOutlined />}
           onClick={(event) => {
-            dispatch(deleteCause({ id: id }));
+            dispatch(deleteCause({ causeId: id }));
             event.stopPropagation(); // Stops collapse from being triggered
           }}
         />

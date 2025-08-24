@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button, List, Card, Typography, Spin, Alert } from 'antd';
-import { userAPI, diagramAPI, type User, type Diagram, type DiagramWithParsedCauses } from '../services/api';
+import { userAPI, diagramAPI, type User, type Diagram } from '../services/api';
 
 const { Title, Text } = Typography;
 
@@ -8,7 +8,7 @@ const BackendTest: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [userDiagrams, setUserDiagrams] = useState<Diagram[]>([]);
-  const [selectedDiagram, setSelectedDiagram] = useState<DiagramWithParsedCauses | null>(null);
+  const [selectedDiagram, setSelectedDiagram] = useState<Diagram | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 

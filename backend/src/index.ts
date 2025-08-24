@@ -98,6 +98,67 @@ app.post('/user/:userId/diagram/:diagramId', async (req, res) => {
   }
 });
 
+// GET /diagram/{diagram_id} - Get diagram by ID only
+app.get('/diagram/:diagramId', async (req, res) => {
+  try {
+    const { diagramId } = req.params;
+    const diagram = await db.getDiagramById(diagramId);
+    
+    if (!diagram) {
+      return res.status(404).json({ error: 'Diagram not found' });
+    }
+    
+    // Parse the causes JSON blob
+    const diagramData = {
+      ...diagram,
+      causes: JSON.parse(diagram.causes)
+    };
+    
+    res.json(diagramData);
+  } catch (error) {
+    console.error('Error fetching diagram:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// POST /diagram/{diagram_id} - Update diagram by ID only
+app.post('/diagram/:diagramId', async (req, res) => {
+  try {
+    const { diagramId } = req.params;
+    const { problem, causes } = req.body;
+    
+    // Validate required fields
+    if (!problem || !causes) {
+      return res.status(400).json({ error: 'Problem and causes are required' });
+    }
+    
+    // Check if diagram exists
+    const existingDiagram = await db.getDiagramById(diagramId);
+    if (!existingDiagram) {
+      return res.status(404).json({ error: 'Diagram not found' });
+    }
+    
+    // Update the diagram
+    const success = await db.updateDiagramById(diagramId, problem, causes);
+    
+    if (!success) {
+      return res.status(500).json({ error: 'Failed to update diagram' });
+    }
+    
+    // Return the updated diagram
+    const updatedDiagram = await db.getDiagramById(diagramId);
+    const diagramData = {
+      ...updatedDiagram,
+      causes: JSON.parse(updatedDiagram!.causes)
+    };
+    
+    res.json(diagramData);
+  } catch (error) {
+    console.error('Error updating diagram:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 // Health check endpoint
 app.get('/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() });

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import { Modal, Input, type InputRef, Form } from "antd";
 import { type Cause, updateCause, addCause, addCauseCategory } from "../slices/fishboneSlice";
 import { useAppDispatch } from "../hooks";
@@ -46,21 +46,16 @@ const CauseModal: React.FC<CauseModalProps> = ({
   const onFinish = (values: { name: string; notes: string }) => {
     const isExistingCause = cause !== undefined;
     if (isExistingCause) {
-      dispatch(updateCause({ id: cause.id, newName: values.name, newNotes: values.notes }));
+      dispatch(updateCause({ causeId: cause.id, causeName: values.name, notes: values.notes }));
     } else {
       if (parentCauseId) {
-        dispatch(addCause({ parentId: parentCauseId, newCauseName: values.name, notes: values?.notes }));
+        dispatch(addCause({ parentId: parentCauseId, causeName: values.name, notes: values?.notes }));
       } else {
-        dispatch(addCauseCategory({ newCauseCategoryName: values.name, notes: values?.notes }));
+        dispatch(addCauseCategory({ categoryName: values.name, notes: values?.notes }));
       }
     }
     onOk();
   };
-
-  // const handleOk = () => {
-  //   dispatch(updateCause({ id: cause.id, newName: causeName, newNotes: causeNotes }))
-  //   onOk()
-  // };
 
   return (
     <div>
@@ -72,12 +67,6 @@ const CauseModal: React.FC<CauseModalProps> = ({
         onCancel={onCancel}
         destroyOnHidden={true}
       >
-        {/* Name:
-        <Input ref={inputRef} value={causeName} autoFocus={true} onChange={(e) => setCauseName(e.target.value)} onPressEnter={handleOk} style={{ marginBottom: 12 }} />
-
-        Notes:
-        <Input.TextArea ref={inputRef} value={causeNotes} autoFocus={true} onChange={(e) => setCauseNotes(e.target.value)} onPressEnter={handleOk} /> */}
-
         <div style={{ marginTop: 24 }}></div>
         <Form form={form} layout="vertical" onFinish={onFinish}>
           <Form.Item

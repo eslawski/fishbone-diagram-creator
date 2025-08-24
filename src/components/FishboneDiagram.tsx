@@ -1,14 +1,10 @@
-import React, { useEffect } from "react";
-import { useAppSelector } from "../hooks";
-import { type Cause } from "../slices/fishboneSlice";
-
+import React from "react";
 import Fishbone from "@hophiphip/react-fishbone";
-import "@hophiphip/react-fishbone/style.css";
+import type { FishboneNode } from "@hophiphip/react-fishbone";
+import { type Cause } from "../slices/fishboneSlice";
+import type { Diagram } from "../services/api";
 
-interface FishboneNode {
-  label: string;
-  children?: FishboneNode[];
-}
+import "@hophiphip/react-fishbone/style.css";
 
 function transformCausesToNodes(causes: Cause[]) {
   if (!Array.isArray(causes)) return [];
@@ -46,14 +42,16 @@ function removeTextOverflowStyles(node: HTMLElement) {
   node.childNodes.forEach(child => removeTextOverflowStyles(child as HTMLElement));
 }
 
-const FishboneDiagram: React.FC = () => {
-  // The `state` arg is correctly typed as `RootState` already
-  const causes = useAppSelector((state) => state.fishbone.causes);
-  const problem = useAppSelector((state) => state.fishbone.problem);
+interface FishboneDiagramProps {
+  diagram: Diagram;
+}
+
+const FishboneDiagram: React.FC<FishboneDiagramProps> = ({ diagram }) => {
+  const { problem, causes } = diagram;
 
   const items: FishboneNode = {
     label: problem,
-    children: transformCausesToNodes(causes || []),
+    children: transformCausesToNodes(causes),
   };
 
   return (
@@ -62,7 +60,9 @@ const FishboneDiagram: React.FC = () => {
         items={items}
         reactFlowProps={{
           onViewportChange: () => {
-            rootNodeHack(problem);
+            if (problem) {
+              rootNodeHack(problem);
+            }
           },
         }}
       />
