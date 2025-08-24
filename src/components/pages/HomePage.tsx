@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, Row, Col, Typography, Spin, Alert } from "antd";
+import { Card, Row, Col, Typography, Spin, Alert, Button } from "antd";
 import { Link } from "react-router-dom";
 import {
   userAPI,
@@ -9,6 +9,11 @@ import {
   type Cause,
 } from "../../services/api";
 import FishboneDiagram from "../FishboneDiagram";
+import {
+  DeleteColumnOutlined,
+  DeleteOutlined,
+  EditOutlined,
+} from "@ant-design/icons";
 
 const { Title, Text } = Typography;
 
@@ -122,34 +127,37 @@ const HomePage: React.FC = () => {
 
       {usersWithDiagrams.map(({ user, diagrams }) => (
         <div key={user.id} style={{ marginBottom: "48px" }}>
-          <Title level={4}>
-            {user.name}'s Diagrams
-          </Title>
+          <Title level={4}>{user.name}'s Diagrams</Title>
 
           {diagrams.length === 0 ? (
             <Card>
               <Text type="secondary">No diagrams created yet.</Text>
             </Card>
           ) : (
-            
             <Row gutter={[16, 16]}>
               {diagrams.map((diagram) => (
                 <Col xs={24} sm={12} md={8} lg={6} key={diagram.id}>
-                  <Link to={`/diagram/${diagram.id}`}>
-                    <Card hoverable style={{ height: "100%" }}>
-                      <div>
-                        <Title
-                          style={{ marginBottom: "12px", fontSize: "16px"}}
-                        >
-                          {diagram.problem}
-                        </Title>
-                        <Text type="secondary">
-                          {diagram.causes.length} cause categories
-                        </Text>
-                      </div>
-                    
-                    </Card>
-                  </Link>
+                  <Card
+                    style={{ height: "100%" }}
+                    actions={[
+                      <Link to={`/diagram/${diagram.id}`}>
+                        <EditOutlined key="edit" />
+                      </Link>,
+                      <DeleteOutlined
+                        key="delete"
+                        onClick={() => alert(diagram.id)}
+                      />,
+                    ]}
+                  >
+                    <div>
+                      <Title style={{ marginBottom: "12px", fontSize: "16px" }}>
+                        {diagram.problem}
+                      </Title>
+                      <Text type="secondary">
+                        {diagram.causes.length} cause categories
+                      </Text>
+                    </div>
+                  </Card>
                 </Col>
               ))}
             </Row>
