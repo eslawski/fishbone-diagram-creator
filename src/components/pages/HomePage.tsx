@@ -173,67 +173,70 @@ const HomePage: React.FC = () => {
           fontSize: "16px",
           textAlign: "center",
           display: "block",
-          marginBottom: "32px",
+          marginBottom: 48,
         }}
       >
         Explore and analyze cause-and-effect relationships across different
         domains
       </Text>
 
-      {usersWithDiagrams.map(({ user, diagrams }) => (
-        <div key={user.id} style={{ marginBottom: 64 }}>
-          <Title level={4}>
-            {user.name}'s Diagrams{" "}
-            <Button
-              style={{ marginLeft: 6 }}
-              className="new-diagram-button"
-              type="primary"
-              size="small"
-              icon={<PlusOutlined />}
-              onClick={() => handleNewDiagramClick(user)}
-            />
-          </Title>
+      <div style={{ maxWidth: "1500px", margin: "0 auto" }}>
+        {usersWithDiagrams.map(({ user, diagrams }) => (
+          <div key={user.id} style={{ marginBottom: 64 }}>
+            <Title level={4}>
+              {user.name}'s Diagrams{" "}
+              <Button
+                style={{ marginLeft: 6 }}
+                className="new-diagram-button"
+                type="primary"
+                size="small"
+                icon={<PlusOutlined />}
+                onClick={() => handleNewDiagramClick(user)}
+              />
+            </Title>
 
-          {diagrams.length === 0 ? (
-            <Card>
-              <Text type="secondary">No diagrams created yet.</Text>
-            </Card>
-          ) : (
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fill, 300px)",
-                gap: "16px",
-              }}
-            >
-              {diagrams.map((diagram) => (
-                <Card
-                  key={diagram.id}
-                  style={{ height: "100%" }}
-                  actions={[
-                    <Link to={`/diagram/${diagram.id}`}>
-                      <EditOutlined key="edit" />
-                    </Link>,
-                    <DeleteOutlined
-                      key="delete"
-                      onClick={() => handleDeleteClick(diagram)}
-                    />,
-                  ]}
-                >
-                  <div>
-                    <Title style={{ marginBottom: "12px", fontSize: "16px" }}>
-                      {diagram.problem}
-                    </Title>
-                    <Text type="secondary">
-                      {diagram.causes.length} cause categories
-                    </Text>
-                  </div>
-                </Card>
-              ))}
-            </div>
-          )}
-        </div>
-      ))}
+            {diagrams.length === 0 ? (
+              <Card>
+                <Text type="secondary">No diagrams created yet.</Text>
+              </Card>
+            ) : (
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fill, 300px)",
+                  gap: "16px",
+                  width: "100%",
+                }}
+              >
+                {diagrams.map((diagram) => (
+                  <Card
+                    key={diagram.id}
+                    style={{ height: "100%" }}
+                    actions={[
+                      <Link to={`/diagram/${diagram.id}`}>
+                        <EditOutlined key="edit" />
+                      </Link>,
+                      <DeleteOutlined
+                        key="delete"
+                        onClick={() => handleDeleteClick(diagram)}
+                      />,
+                    ]}
+                  >
+                    <div>
+                      <Title style={{ marginBottom: "12px", fontSize: "16px" }}>
+                        {diagram.problem}
+                      </Title>
+                      <Text type="secondary">
+                        {diagram.causes.length} cause categories
+                      </Text>
+                    </div>
+                  </Card>
+                ))}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
 
       {/* Delete Confirmation Modal */}
       <Modal

@@ -105,7 +105,7 @@ const CauseCollapse: React.FC<CauseCollapseProps> = ({
         items={[collapseItem]}
         style={{
           marginBottom: 12,
-          backgroundColor: !parentCauseId ? "#C4C4C4" : "#F2F2F2",
+          backgroundColor: !parentCauseId ? "#CEDAEC" : "#F2F2F2",
         }}
       />
 
