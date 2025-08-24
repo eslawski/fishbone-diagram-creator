@@ -15,13 +15,14 @@ export interface User {
 }
 
 export interface Cause {
-  id: number;
+  id: string;
   name: string;
   causes: Cause[];
 }
 
 export interface Diagram {
   id: string;
+  user_id: string;
   problem: string;
   causes: Cause[];
 }

@@ -6,7 +6,7 @@ import { useAppDispatch } from "../hooks";
 interface CauseModalProps {
   isOpen: boolean;
   heading: string;
-  parentCauseId?: number; // Undefined when adding a cause category
+  parentCauseId?: string; // Undefined when adding a cause category
   cause?: Cause;
   onOk: () => void;
   onCancel: () => void;

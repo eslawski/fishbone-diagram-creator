@@ -33,6 +33,7 @@ const Generator: React.FC<GeneratorProps> = ({ diagram }) => {
         onSave={handleProblemUpdated}
         level={1}
       />
+      <hr />
       {causes &&
         causes.map((cause) => <CauseCollapse key={cause.id} cause={cause} />)}
 

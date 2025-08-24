@@ -11,7 +11,7 @@ import { useAppDispatch } from "../hooks";
 
 interface CauseCollapseProps {
   cause: Cause;
-  parentCauseId?: number;
+  parentCauseId?: string;
 }
 
 const CauseCollapse: React.FC<CauseCollapseProps> = ({
@@ -24,7 +24,7 @@ const CauseCollapse: React.FC<CauseCollapseProps> = ({
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const dispatch = useAppDispatch();
 
-  const genExtra = (id: number) => (
+  const genExtra = () => (
     <div>
       <Tooltip title="Edit cause">
         <Button
@@ -93,7 +93,7 @@ const CauseCollapse: React.FC<CauseCollapseProps> = ({
     label: name,
     children: children,
     showArrow: false,
-    extra: genExtra(id),
+    extra: genExtra(),
   };
 
   // To make sections collapsible, change activeKey to defaultActiveKey

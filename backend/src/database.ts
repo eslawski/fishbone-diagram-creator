@@ -10,7 +10,7 @@ interface User {
 }
 
 interface Cause {
-  id: number;
+  id: string;
   name: string;
   notes?: string;
   causes: Cause[];
@@ -92,50 +92,50 @@ export class Database {
           problem: "Too many bugs in production code!",
           causes: [
             {
-              id: 1,
+              id: uuidv4(),
               name: "Development Process",
               causes: [
                 {
-                  id: 2,
+                  id: uuidv4(),
                   name: "Code Review",
                   notes: "Lack of thorough code review process",
                   causes: [
-                    { id: 3, name: "Time Pressure", causes: [] },
-                    { id: 4, name: "Insufficient Training", causes: [] }
+                    { id: uuidv4(), name: "Time Pressure", causes: [] },
+                    { id: uuidv4(), name: "Insufficient Training", causes: [] }
                   ]
                 },
                 {
-                  id: 5,
+                  id: uuidv4(),
                   name: "Testing",
                   causes: [
-                    { id: 6, name: "Unit Test Coverage", causes: [] },
-                    { id: 7, name: "Integration Testing", causes: [] }
+                    { id: uuidv4(), name: "Unit Test Coverage", causes: [] },
+                    { id: uuidv4(), name: "Integration Testing", causes: [] }
                   ]
                 }
               ]
             },
             {
-              id: 8,
+              id: uuidv4(),
               name: "Environment Issues",
               causes: [
-                { id: 9, name: "Configuration Management", causes: [] },
-                { id: 10, name: "Dependency Conflicts", causes: [] }
+                { id: uuidv4(), name: "Configuration Management", causes: [] },
+                { id: uuidv4(), name: "Dependency Conflicts", causes: [] }
               ]
             },
             {
-              id: 11,
+              id: uuidv4(),
               name: "Team Communication",
               causes: [
-                { id: 12, name: "Documentation", causes: [] },
-                { id: 13, name: "Knowledge Sharing", causes: [] }
+                { id: uuidv4(), name: "Documentation", causes: [] },
+                { id: uuidv4(), name: "Knowledge Sharing", causes: [] }
               ]
             },
             {
-              id: 14,
+              id: uuidv4(),
               name: "Code Quality",
               causes: [
-                { id: 15, name: "Coding Standards", causes: [] },
-                { id: 16, name: "Refactoring Practices", causes: [] }
+                { id: uuidv4(), name: "Coding Standards", causes: [] },
+                { id: uuidv4(), name: "Refactoring Practices", causes: [] }
               ]
             }
           ]
@@ -144,35 +144,35 @@ export class Database {
           problem: "Slow application performance",
           causes: [
             {
-              id: 17,
+              id: uuidv4(),
               name: "Database Issues",
               causes: [
-                { id: 18, name: "Query Optimization", causes: [] },
-                { id: 19, name: "Index Management", causes: [] }
+                { id: uuidv4(), name: "Query Optimization", causes: [] },
+                { id: uuidv4(), name: "Index Management", causes: [] }
               ]
             },
             {
-              id: 20,
+              id: uuidv4(),
               name: "Frontend Performance",
               causes: [
-                { id: 21, name: "Bundle Size", causes: [] },
-                { id: 22, name: "Rendering Optimization", causes: [] }
+                { id: uuidv4(), name: "Bundle Size", causes: [] },
+                { id: uuidv4(), name: "Rendering Optimization", causes: [] }
               ]
             },
             {
-              id: 23,
+              id: uuidv4(),
               name: "Infrastructure",
               causes: [
-                { id: 24, name: "Server Resources", causes: [] },
-                { id: 25, name: "Network Latency", causes: [] }
+                { id: uuidv4(), name: "Server Resources", causes: [] },
+                { id: uuidv4(), name: "Network Latency", causes: [] }
               ]
             },
             {
-              id: 26,
+              id: uuidv4(),
               name: "Caching Strategy",
               causes: [
-                { id: 27, name: "Application Cache", causes: [] },
-                { id: 28, name: "CDN Configuration", causes: [] }
+                { id: uuidv4(), name: "Application Cache", causes: [] },
+                { id: uuidv4(), name: "CDN Configuration", causes: [] }
               ]
             }
           ]
@@ -181,35 +181,35 @@ export class Database {
           problem: "Security vulnerabilities in web application",
           causes: [
             {
-              id: 29,
+              id: uuidv4(),
               name: "Input Validation",
               causes: [
-                { id: 30, name: "SQL Injection Prevention", causes: [] },
-                { id: 31, name: "XSS Protection", causes: [] }
+                { id: uuidv4(), name: "SQL Injection Prevention", causes: [] },
+                { id: uuidv4(), name: "XSS Protection", causes: [] }
               ]
             },
             {
-              id: 32,
+              id: uuidv4(),
               name: "Authentication",
               causes: [
-                { id: 33, name: "Password Policies", causes: [] },
-                { id: 34, name: "Session Management", causes: [] }
+                { id: uuidv4(), name: "Password Policies", causes: [] },
+                { id: uuidv4(), name: "Session Management", causes: [] }
               ]
             },
             {
-              id: 35,
+              id: uuidv4(),
               name: "Authorization",
               causes: [
-                { id: 36, name: "Role-Based Access", causes: [] },
-                { id: 37, name: "Permission Checks", causes: [] }
+                { id: uuidv4(), name: "Role-Based Access", causes: [] },
+                { id: uuidv4(), name: "Permission Checks", causes: [] }
               ]
             },
             {
-              id: 38,
+              id: uuidv4(),
               name: "Data Protection",
               causes: [
-                { id: 39, name: "Encryption", causes: [] },
-                { id: 40, name: "Data Sanitization", causes: [] }
+                { id: uuidv4(), name: "Encryption", causes: [] },
+                { id: uuidv4(), name: "Data Sanitization", causes: [] }
               ]
             }
           ]
@@ -222,35 +222,35 @@ export class Database {
           problem: "Low customer engagement on social media",
           causes: [
             {
-              id: 41,
+              id: uuidv4(),
               name: "Content Strategy",
               causes: [
-                { id: 42, name: "Content Quality", causes: [] },
-                { id: 43, name: "Posting Frequency", causes: [] }
+                { id: uuidv4(), name: "Content Quality", causes: [] },
+                { id: uuidv4(), name: "Posting Frequency", causes: [] }
               ]
             },
             {
-              id: 44,
+              id: uuidv4(),
               name: "Audience Targeting",
               causes: [
-                { id: 45, name: "Demographic Analysis", causes: [] },
-                { id: 46, name: "Interest Mapping", causes: [] }
+                { id: uuidv4(), name: "Demographic Analysis", causes: [] },
+                { id: uuidv4(), name: "Interest Mapping", causes: [] }
               ]
             },
             {
-              id: 47,
+              id: uuidv4(),
               name: "Platform Selection",
               causes: [
-                { id: 48, name: "Channel Effectiveness", causes: [] },
-                { id: 49, name: "Platform Features", causes: [] }
+                { id: uuidv4(), name: "Channel Effectiveness", causes: [] },
+                { id: uuidv4(), name: "Platform Features", causes: [] }
               ]
             },
             {
-              id: 50,
+              id: uuidv4(),
               name: "Engagement Tactics",
               causes: [
-                { id: 51, name: "Interactive Content", causes: [] },
-                { id: 52, name: "Community Building", causes: [] }
+                { id: uuidv4(), name: "Interactive Content", causes: [] },
+                { id: uuidv4(), name: "Community Building", causes: [] }
               ]
             }
           ]
@@ -259,35 +259,35 @@ export class Database {
           problem: "Poor conversion rates in email campaigns",
           causes: [
             {
-              id: 53,
+              id: uuidv4(),
               name: "Email Design",
               causes: [
-                { id: 54, name: "Visual Appeal", causes: [] },
-                { id: 55, name: "Mobile Optimization", causes: [] }
+                { id: uuidv4(), name: "Visual Appeal", causes: [] },
+                { id: uuidv4(), name: "Mobile Optimization", causes: [] }
               ]
             },
             {
-              id: 56,
+              id: uuidv4(),
               name: "Subject Lines",
               causes: [
-                { id: 57, name: "Personalization", causes: [] },
-                { id: 58, name: "A/B Testing", causes: [] }
+                { id: uuidv4(), name: "Personalization", causes: [] },
+                { id: uuidv4(), name: "A/B Testing", causes: [] }
               ]
             },
             {
-              id: 59,
+              id: uuidv4(),
               name: "List Quality",
               causes: [
-                { id: 60, name: "Segmentation", causes: [] },
-                { id: 61, name: "List Hygiene", causes: [] }
+                { id: uuidv4(), name: "Segmentation", causes: [] },
+                { id: uuidv4(), name: "List Hygiene", causes: [] }
               ]
             },
             {
-              id: 62,
+              id: uuidv4(),
               name: "Call-to-Action",
               causes: [
-                { id: 63, name: "Button Design", causes: [] },
-                { id: 64, name: "Placement Strategy", causes: [] }
+                { id: uuidv4(), name: "Button Design", causes: [] },
+                { id: uuidv4(), name: "Placement Strategy", causes: [] }
               ]
             }
           ]
@@ -296,35 +296,35 @@ export class Database {
           problem: "Brand awareness not growing",
           causes: [
             {
-              id: 65,
+              id: uuidv4(),
               name: "Advertising Strategy",
               causes: [
-                { id: 66, name: "Media Mix", causes: [] },
-                { id: 67, name: "Creative Quality", causes: [] }
+                { id: uuidv4(), name: "Media Mix", causes: [] },
+                { id: uuidv4(), name: "Creative Quality", causes: [] }
               ]
             },
             {
-              id: 68,
+              id: uuidv4(),
               name: "Public Relations",
               causes: [
-                { id: 69, name: "Press Coverage", causes: [] },
-                { id: 70, name: "Event Participation", causes: [] }
+                { id: uuidv4(), name: "Press Coverage", causes: [] },
+                { id: uuidv4(), name: "Event Participation", causes: [] }
               ]
             },
             {
-              id: 71,
+              id: uuidv4(),
               name: "Partnerships",
               causes: [
-                { id: 72, name: "Strategic Alliances", causes: [] },
-                { id: 73, name: "Influencer Marketing", causes: [] }
+                { id: uuidv4(), name: "Strategic Alliances", causes: [] },
+                { id: uuidv4(), name: "Influencer Marketing", causes: [] }
               ]
             },
             {
-              id: 74,
+              id: uuidv4(),
               name: "Content Marketing",
               causes: [
-                { id: 75, name: "SEO Strategy", causes: [] },
-                { id: 76, name: "Thought Leadership", causes: [] }
+                { id: uuidv4(), name: "SEO Strategy", causes: [] },
+                { id: uuidv4(), name: "Thought Leadership", causes: [] }
               ]
             }
           ]
@@ -337,35 +337,35 @@ export class Database {
           problem: "Long customer wait times",
           causes: [
             {
-              id: 77,
+              id: uuidv4(),
               name: "Staffing Issues",
               causes: [
-                { id: 78, name: "Agent Availability", causes: [] },
-                { id: 79, name: "Training Requirements", causes: [] }
+                { id: uuidv4(), name: "Agent Availability", causes: [] },
+                { id: uuidv4(), name: "Training Requirements", causes: [] }
               ]
             },
             {
-              id: 80,
+              id: uuidv4(),
               name: "Process Efficiency",
               causes: [
-                { id: 81, name: "Workflow Design", causes: [] },
-                { id: 82, name: "Tool Integration", causes: [] }
+                { id: uuidv4(), name: "Workflow Design", causes: [] },
+                { id: uuidv4(), name: "Tool Integration", causes: [] }
               ]
             },
             {
-              id: 83,
+              id: uuidv4(),
               name: "Technology",
               causes: [
-                { id: 84, name: "System Performance", causes: [] },
-                { id: 85, name: "Automation Level", causes: [] }
+                { id: uuidv4(), name: "System Performance", causes: [] },
+                { id: uuidv4(), name: "Automation Level", causes: [] }
               ]
             },
             {
-              id: 86,
+              id: uuidv4(),
               name: "Queue Management",
               causes: [
-                { id: 87, name: "Priority System", causes: [] },
-                { id: 88, name: "Routing Logic", causes: [] }
+                { id: uuidv4(), name: "Priority System", causes: [] },
+                { id: uuidv4(), name: "Routing Logic", causes: [] }
               ]
             }
           ]
@@ -374,35 +374,35 @@ export class Database {
           problem: "Customer satisfaction scores declining",
           causes: [
             {
-              id: 89,
+              id: uuidv4(),
               name: "Service Quality",
               causes: [
-                { id: 90, name: "Agent Skills", causes: [] },
-                { id: 91, name: "Service Standards", causes: [] }
+                { id: uuidv4(), name: "Agent Skills", causes: [] },
+                { id: uuidv4(), name: "Service Standards", causes: [] }
               ]
             },
             {
-              id: 92,
+              id: uuidv4(),
               name: "Communication",
               causes: [
-                { id: 93, name: "Response Clarity", causes: [] },
-                { id: 94, name: "Follow-up Process", causes: [] }
+                { id: uuidv4(), name: "Response Clarity", causes: [] },
+                { id: uuidv4(), name: "Follow-up Process", causes: [] }
               ]
             },
             {
-              id: 95,
+              id: uuidv4(),
               name: "Problem Resolution",
               causes: [
-                { id: 96, name: "First Call Resolution", causes: [] },
-                { id: 97, name: "Escalation Process", causes: [] }
+                { id: uuidv4(), name: "First Call Resolution", causes: [] },
+                { id: uuidv4(), name: "Escalation Process", causes: [] }
               ]
             },
             {
-              id: 98,
+              id: uuidv4(),
               name: "Customer Experience",
               causes: [
-                { id: 99, name: "Touchpoint Design", causes: [] },
-                { id: 100, name: "Personalization", causes: [] }
+                { id: uuidv4(), name: "Touchpoint Design", causes: [] },
+                { id: uuidv4(), name: "Personalization", causes: [] }
               ]
             }
           ]
@@ -411,35 +411,35 @@ export class Database {
           problem: "High customer churn rate",
           causes: [
             {
-              id: 101,
+              id: uuidv4(),
               name: "Product Issues",
               causes: [
-                { id: 102, name: "Feature Gaps", causes: [] },
-                { id: 103, name: "Reliability Problems", causes: [] }
+                { id: uuidv4(), name: "Feature Gaps", causes: [] },
+                { id: uuidv4(), name: "Reliability Problems", causes: [] }
               ]
             },
             {
-              id: 104,
+              id: uuidv4(),
               name: "Competition",
               causes: [
-                { id: 105, name: "Market Position", causes: [] },
-                { id: 106, name: "Pricing Strategy", causes: [] }
+                { id: uuidv4(), name: "Market Position", causes: [] },
+                { id: uuidv4(), name: "Pricing Strategy", causes: [] }
               ]
             },
             {
-              id: 107,
+              id: uuidv4(),
               name: "Customer Support",
               causes: [
-                { id: 108, name: "Response Time", causes: [] },
-                { id: 109, name: "Support Quality", causes: [] }
+                { id: uuidv4(), name: "Response Time", causes: [] },
+                { id: uuidv4(), name: "Support Quality", causes: [] }
               ]
             },
             {
-              id: 110,
+              id: uuidv4(),
               name: "Value Proposition",
               causes: [
-                { id: 111, name: "ROI Demonstration", causes: [] },
-                { id: 112, name: "Feature Benefits", causes: [] }
+                { id: uuidv4(), name: "ROI Demonstration", causes: [] },
+                { id: uuidv4(), name: "Feature Benefits", causes: [] }
               ]
             }
           ]
@@ -452,35 +452,35 @@ export class Database {
           problem: "Product quality defects increasing",
           causes: [
             {
-              id: 113,
+              id: uuidv4(),
               name: "Raw Materials",
               causes: [
-                { id: 114, name: "Supplier Quality", causes: [] },
-                { id: 115, name: "Material Testing", causes: [] }
+                { id: uuidv4(), name: "Supplier Quality", causes: [] },
+                { id: uuidv4(), name: "Material Testing", causes: [] }
               ]
             },
             {
-              id: 116,
+              id: uuidv4(),
               name: "Production Process",
               causes: [
-                { id: 117, name: "Equipment Calibration", causes: [] },
-                { id: 118, name: "Process Parameters", causes: [] }
+                { id: uuidv4(), name: "Equipment Calibration", causes: [] },
+                { id: uuidv4(), name: "Process Parameters", causes: [] }
               ]
             },
             {
-              id: 119,
+              id: uuidv4(),
               name: "Human Factors",
               causes: [
-                { id: 120, name: "Operator Training", causes: [] },
-                { id: 121, name: "Work Procedures", causes: [] }
+                { id: uuidv4(), name: "Operator Training", causes: [] },
+                { id: uuidv4(), name: "Work Procedures", causes: [] }
               ]
             },
             {
-              id: 122,
+              id: uuidv4(),
               name: "Quality Control",
               causes: [
-                { id: 123, name: "Inspection Process", causes: [] },
-                { id: 124, name: "Testing Methods", causes: [] }
+                { id: uuidv4(), name: "Inspection Process", causes: [] },
+                { id: uuidv4(), name: "Testing Methods", causes: [] }
               ]
             }
           ]
@@ -489,35 +489,35 @@ export class Database {
           problem: "Production delays and missed deadlines",
           causes: [
             {
-              id: 125,
+              id: uuidv4(),
               name: "Equipment Issues",
               causes: [
-                { id: 126, name: "Maintenance Schedule", causes: [] },
-                { id: 127, name: "Breakdown Frequency", causes: [] }
+                { id: uuidv4(), name: "Maintenance Schedule", causes: [] },
+                { id: uuidv4(), name: "Breakdown Frequency", causes: [] }
               ]
             },
             {
-              id: 128,
+              id: uuidv4(),
               name: "Supply Chain",
               causes: [
-                { id: 129, name: "Vendor Reliability", causes: [] },
-                { id: 130, name: "Inventory Management", causes: [] }
+                { id: uuidv4(), name: "Vendor Reliability", causes: [] },
+                { id: uuidv4(), name: "Inventory Management", causes: [] }
               ]
             },
             {
-              id: 131,
+              id: uuidv4(),
               name: "Workforce",
               causes: [
-                { id: 132, name: "Staffing Levels", causes: [] },
-                { id: 133, name: "Skill Availability", causes: [] }
+                { id: uuidv4(), name: "Staffing Levels", causes: [] },
+                { id: uuidv4(), name: "Skill Availability", causes: [] }
               ]
             },
             {
-              id: 134,
+              id: uuidv4(),
               name: "Planning",
               causes: [
-                { id: 135, name: "Production Scheduling", causes: [] },
-                { id: 136, name: "Capacity Planning", causes: [] }
+                { id: uuidv4(), name: "Production Scheduling", causes: [] },
+                { id: uuidv4(), name: "Capacity Planning", causes: [] }
               ]
             }
           ]
@@ -526,35 +526,35 @@ export class Database {
           problem: "High production costs",
           causes: [
             {
-              id: 137,
+              id: uuidv4(),
               name: "Energy Usage",
               causes: [
-                { id: 138, name: "Equipment Efficiency", causes: [] },
-                { id: 139, name: "Process Optimization", causes: [] }
+                { id: uuidv4(), name: "Equipment Efficiency", causes: [] },
+                { id: uuidv4(), name: "Process Optimization", causes: [] }
               ]
             },
             {
-              id: 140,
+              id: uuidv4(),
               name: "Labor Costs",
               causes: [
-                { id: 141, name: "Productivity Levels", causes: [] },
-                { id: 142, name: "Overtime Usage", causes: [] }
+                { id: uuidv4(), name: "Productivity Levels", causes: [] },
+                { id: uuidv4(), name: "Overtime Usage", causes: [] }
               ]
             },
             {
-              id: 143,
+              id: uuidv4(),
               name: "Waste Management",
               causes: [
-                { id: 144, name: "Scrap Reduction", causes: [] },
-                { id: 145, name: "Recycling Programs", causes: [] }
+                { id: uuidv4(), name: "Scrap Reduction", causes: [] },
+                { id: uuidv4(), name: "Recycling Programs", causes: [] }
               ]
             },
             {
-              id: 146,
+              id: uuidv4(),
               name: "Overhead",
               causes: [
-                { id: 147, name: "Facility Costs", causes: [] },
-                { id: 148, name: "Administrative Expenses", causes: [] }
+                { id: uuidv4(), name: "Facility Costs", causes: [] },
+                { id: uuidv4(), name: "Administrative Expenses", causes: [] }
               ]
             }
           ]
@@ -567,35 +567,35 @@ export class Database {
           problem: "Patient wait times too long",
           causes: [
             {
-              id: 149,
+              id: uuidv4(),
               name: "Staffing",
               causes: [
-                { id: 150, name: "Nurse Availability", causes: [] },
-                { id: 151, name: "Doctor Schedules", causes: [] }
+                { id: uuidv4(), name: "Nurse Availability", causes: [] },
+                { id: uuidv4(), name: "Doctor Schedules", causes: [] }
               ]
             },
             {
-              id: 152,
+              id: uuidv4(),
               name: "Process Flow",
               causes: [
-                { id: 153, name: "Registration Process", causes: [] },
-                { id: 154, name: "Triage System", causes: [] }
+                { id: uuidv4(), name: "Registration Process", causes: [] },
+                { id: uuidv4(), name: "Triage System", causes: [] }
               ]
             },
             {
-              id: 155,
+              id: uuidv4(),
               name: "Facility",
               causes: [
-                { id: 156, name: "Room Availability", causes: [] },
-                { id: 157, name: "Equipment Access", causes: [] }
+                { id: uuidv4(), name: "Room Availability", causes: [] },
+                { id: uuidv4(), name: "Equipment Access", causes: [] }
               ]
             },
             {
-              id: 158,
+              id: uuidv4(),
               name: "Communication",
               causes: [
-                { id: 159, name: "Patient Updates", causes: [] },
-                { id: 160, name: "Staff Coordination", causes: [] }
+                { id: uuidv4(), name: "Patient Updates", causes: [] },
+                { id: uuidv4(), name: "Staff Coordination", causes: [] }
               ]
             }
           ]
@@ -604,35 +604,35 @@ export class Database {
           problem: "Medical errors occurring",
           causes: [
             {
-              id: 161,
+              id: uuidv4(),
               name: "Medication Management",
               causes: [
-                { id: 162, name: "Prescription Process", causes: [] },
-                { id: 163, name: "Dosage Verification", causes: [] }
+                { id: uuidv4(), name: "Prescription Process", causes: [] },
+                { id: uuidv4(), name: "Dosage Verification", causes: [] }
               ]
             },
             {
-              id: 164,
+              id: uuidv4(),
               name: "Documentation",
               causes: [
-                { id: 165, name: "Chart Accuracy", causes: [] },
-                { id: 166, name: "Information Transfer", causes: [] }
+                { id: uuidv4(), name: "Chart Accuracy", causes: [] },
+                { id: uuidv4(), name: "Information Transfer", causes: [] }
               ]
             },
             {
-              id: 167,
+              id: uuidv4(),
               name: "Training",
               causes: [
-                { id: 168, name: "Clinical Skills", causes: [] },
-                { id: 169, name: "Safety Protocols", causes: [] }
+                { id: uuidv4(), name: "Clinical Skills", causes: [] },
+                { id: uuidv4(), name: "Safety Protocols", causes: [] }
               ]
             },
             {
-              id: 170,
+              id: uuidv4(),
               name: "System Design",
               causes: [
-                { id: 171, name: "Error Prevention", causes: [] },
-                { id: 172, name: "Alert Systems", causes: [] }
+                { id: uuidv4(), name: "Error Prevention", causes: [] },
+                { id: uuidv4(), name: "Alert Systems", causes: [] }
               ]
             }
           ]
@@ -641,35 +641,35 @@ export class Database {
           problem: "Patient satisfaction declining",
           causes: [
             {
-              id: 173,
+              id: uuidv4(),
               name: "Care Quality",
               causes: [
-                { id: 174, name: "Treatment Effectiveness", causes: [] },
-                { id: 175, name: "Outcome Management", causes: [] }
+                { id: uuidv4(), name: "Treatment Effectiveness", causes: [] },
+                { id: uuidv4(), name: "Outcome Management", causes: [] }
               ]
             },
             {
-              id: 176,
+              id: uuidv4(),
               name: "Patient Experience",
               causes: [
-                { id: 177, name: "Comfort Measures", causes: [] },
-                { id: 178, name: "Environment Quality", causes: [] }
+                { id: uuidv4(), name: "Comfort Measures", causes: [] },
+                { id: uuidv4(), name: "Environment Quality", causes: [] }
               ]
             },
             {
-              id: 179,
+              id: uuidv4(),
               name: "Communication",
               causes: [
-                { id: 180, name: "Doctor-Patient Interaction", causes: [] },
-                { id: 181, name: "Information Sharing", causes: [] }
+                { id: uuidv4(), name: "Doctor-Patient Interaction", causes: [] },
+                { id: uuidv4(), name: "Information Sharing", causes: [] }
               ]
             },
             {
-              id: 182,
+              id: uuidv4(),
               name: "Accessibility",
               causes: [
-                { id: 183, name: "Appointment Availability", causes: [] },
-                { id: 184, name: "Location Convenience", causes: [] }
+                { id: uuidv4(), name: "Appointment Availability", causes: [] },
+                { id: uuidv4(), name: "Location Convenience", causes: [] }
               ]
             }
           ]
@@ -794,37 +794,37 @@ export class Database {
       // Initialize with predefined top-level causes
       const predefinedCauses: Cause[] = [
         {
-          id: 1,
+          id: uuidv4(),
           name: "Materials",
           notes: "Issues related to materials, supplies, or resources",
           causes: []
         },
         {
-          id: 2,
+          id: uuidv4(),
           name: "Measurement",
           notes: "Issues related to measurement, monitoring, or data collection",
           causes: []
         },
         {
-          id: 3,
+          id: uuidv4(),
           name: "Environment",
           notes: "Issues related to environmental factors or conditions",
           causes: []
         },
         {
-          id: 4,
+          id: uuidv4(),
           name: "Method",
           notes: "Issues related to processes, procedures, or methodologies",
           causes: []
         },
         {
-          id: 5,
+          id: uuidv4(),
           name: "Machine",
           notes: "Issues related to equipment, tools, or machinery",
           causes: []
         },
         {
-          id: 6,
+          id: uuidv4(),
           name: "People",
           notes: "Issues related to human factors, skills, or training",
           causes: []

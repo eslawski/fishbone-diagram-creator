@@ -2,9 +2,10 @@ import { createSlice, type GetThunkAPI } from "@reduxjs/toolkit";
 import { diagramAPI, type Diagram } from "../services/api";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
+import { v4 as uuidv4 } from "uuid";
 
 export interface Cause {
-  id: number;
+  id: string;
   name: string;
   notes?: string;
   causes: Cause[];
@@ -50,7 +51,7 @@ export const updateProblem = createAsyncThunk(
 
 export const addCause = createAsyncThunk(
   "diagram/addCause",
-  async ({parentId, causeName, notes}: {parentId: number, causeName: string, notes?: string}, thunkAPI) => {
+  async ({parentId, causeName, notes}: {parentId: string, causeName: string, notes?: string}, thunkAPI) => {
     const updatedDiagram: Diagram = getCurrentDiagram(thunkAPI);
 
     // Update diagram before sending to server
@@ -61,7 +62,7 @@ export const addCause = createAsyncThunk(
     }
 
     const newCause: Cause = {
-      id: Math.floor(Math.random() * 10000000) + 1, // TODO make UUID
+      id: uuidv4(),
       name: causeName,
       notes: notes,
       causes: [],
@@ -76,7 +77,7 @@ export const addCause = createAsyncThunk(
 
 export const updateCause = createAsyncThunk(
   "diagram/updateCause",
-  async ({causeId, causeName, notes}: {causeId: number, causeName: string, notes?: string}, thunkAPI) => {
+  async ({causeId, causeName, notes}: {causeId: string, causeName: string, notes?: string}, thunkAPI) => {
     const updatedDiagram: Diagram = getCurrentDiagram(thunkAPI);
 
     // Update diagram before sending to server
@@ -96,7 +97,7 @@ export const updateCause = createAsyncThunk(
 
 export const deleteCause = createAsyncThunk(
   "diagram/deleteCause",
-  async ({causeId}: {causeId: number}, thunkAPI) => {
+  async ({causeId}: {causeId: string}, thunkAPI) => {
     const updatedDiagram: Diagram = getCurrentDiagram(thunkAPI);
 
     const removeCause = (causes: Cause[]): Cause[] =>
@@ -119,7 +120,7 @@ export const addCauseCategory = createAsyncThunk(
     const updatedDiagram: Diagram = getCurrentDiagram(thunkAPI);
 
     const newCauseCategory: Cause = {
-      id: Math.floor(Math.random() * 10000000) + 1, // TODO make UUID
+      id: uuidv4(),
       name: categoryName,
       notes: notes,
       causes: [],
@@ -131,7 +132,7 @@ export const addCauseCategory = createAsyncThunk(
   }
 );
 
-function findCauseById(causes: Cause[], targetId: number): Cause | null {
+function findCauseById(causes: Cause[], targetId: string): Cause | null {
   for (const cause of causes) {
     if (cause.id === targetId) {
       return cause;
