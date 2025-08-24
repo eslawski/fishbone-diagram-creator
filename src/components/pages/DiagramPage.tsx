@@ -8,17 +8,16 @@ import { fetchDiagram } from "../../slices/fishboneSlice";
 const DiagramPage: React.FC = () => {
     const dispatch = useAppDispatch();
     const { diagramId } = useParams<{ diagramId: string }>();
-    const diagramStatus = useAppSelector(state => state.fishbone.status);
     const diagram = useAppSelector(state => state.fishbone.diagram);
 
     useEffect(() => {
-        if (diagramStatus === "idle") {
-            if (!diagramId) {
-                throw Error("Unable to fetch diagram: diagram ID is required");
-            }
-            dispatch(fetchDiagram({ diagramId: diagramId }));
+        if (!diagramId) {
+            throw Error("Unable to fetch diagram: diagram ID is required");
         }
-    }, [diagramStatus, dispatch, diagramId]);
+        
+        // Always fetch the diagram when diagramId changes, regardless of status
+        dispatch(fetchDiagram({ diagramId: diagramId }));
+    }, [dispatch, diagramId]);
 
     if (!diagram) {
         return <div>Loading...</div>;

@@ -229,6 +229,8 @@ export const fishboneSlice = createSlice({
     builder
       .addCase(fetchDiagram.pending, (state) => {
         state.status = "pending";
+        state.diagram = null; // Clear previous diagram data
+        state.error = null;
       })
       .addCase(fetchDiagram.fulfilled, (state, action) => {
         state.status = "succeeded";
