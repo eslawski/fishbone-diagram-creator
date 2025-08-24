@@ -85,8 +85,10 @@ const CauseCollapse: React.FC<CauseCollapseProps> = ({
     </div>
   );
 
+  const shouldExpand = causes?.length > 0 || cause.notes;
+
   const collapseItem = {
-    key: 1, // Ensures all sections are expanded by default
+    key: shouldExpand ? 1 : 2, // Ensures all sections are expanded by default
     label: name,
     children: children,
     showArrow: false,
@@ -97,9 +99,10 @@ const CauseCollapse: React.FC<CauseCollapseProps> = ({
   return (
     <div>
       <Collapse
-        activeKey={[1]}
+        key={1}
+        defaultActiveKey={[1]}
         items={[collapseItem]}
-        style={{ marginBottom: 12 }}
+        style={{ marginBottom: 12, backgroundColor: !parentCauseId ? "#B2BEB5" : "#F2F2F2" }}
       />
 
       <CauseModal
