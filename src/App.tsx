@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AppLayout from "./components/AppLayout";
 import DiagramPage from "./components/pages/DiagramPage";
-import BackendTest from "./components/BackendTest";
+import BackendTestPage from "./components/pages/BackendTestPage";
 import { store } from "./store";
 import { Provider } from "react-redux";
 
@@ -22,7 +22,7 @@ function App() {
               </div>
             } />
             <Route path="diagram/:diagramId" element={<DiagramPage />} />
-            <Route path="backend-test" element={<BackendTest />} />
+            <Route path="backend-test" element={<BackendTestPage />} />
           </Route>
         </Routes>
       </Router>

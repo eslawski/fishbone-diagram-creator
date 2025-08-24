@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button, List, Card, Typography, Spin, Alert } from 'antd';
-import { userAPI, diagramAPI, type User, type Diagram } from '../services/api';
+import { userAPI, diagramAPI, type User, type Diagram } from '../../services/api';
 
 const { Title, Text } = Typography;
 
