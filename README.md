@@ -6,8 +6,7 @@ A full-stack application for creating and managing fishbone (Ishikawa) diagrams 
 
 ### Frontend
 - **Interactive Fishbone Diagrams**: Create, edit, and visualize cause-and-effect relationships
-- **Editable Headings**: Inline editing for problem titles and cause names
-- **Modern UI**: Built with React, TypeScript, and Ant Design
+- **Clean UI**: Built with React, TypeScript, and Ant Design
 - **State Management**: Redux Toolkit for application state
 - **Responsive Design**: Works on desktop and mobile devices
 
@@ -58,6 +57,8 @@ cd ..
 ```bash
 npm run dev:full
 ```
+
+NOTE: If the SQLite database does not exist, it will automatically be created and preloaded with seed data
 
 This will start:
 - Frontend: http://localhost:5173 (or next available port)
@@ -119,7 +120,6 @@ The backend automatically creates:
 ```bash
 npm run dev          # Start Vite dev server
 npm run build        # Build for production
-npm run lint         # Run ESLint
 ```
 
 ### Backend Development
@@ -147,17 +147,4 @@ npm start            # Start production build
 ### Backend
 - Express.js with TypeScript
 - SQLite3 for database
-- UUID for unique identifiers
-- CORS enabled for frontend integration
 
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
-
-## License
-
-This project is licensed under the ISC License.
