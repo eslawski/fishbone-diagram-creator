@@ -101,6 +101,7 @@ const CauseCollapse: React.FC<CauseCollapseProps> = ({
     <div>
       <Collapse
         key={1}
+        className={!parentCauseId ? "parent-cause-collapse" : "sub-cause-collapse"}
         defaultActiveKey={[1]}
         items={[collapseItem]}
         style={{
