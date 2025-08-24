@@ -25,6 +25,34 @@ app.get('/users', async (req, res) => {
   }
 });
 
+// POST /user/{user_id}/diagram - Create new diagram for a user
+app.post('/user/:userId/diagram', async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { problem } = req.body;
+    
+    // Validate required fields
+    if (!problem) {
+      return res.status(400).json({ error: 'Problem is required' });
+    }
+    
+    // Create the diagram
+    const diagramId = await db.createDiagram(userId, problem);
+    
+    // Return the created diagram
+    const newDiagram = await db.getDiagram(userId, diagramId);
+    const diagramData = {
+      ...newDiagram,
+      causes: JSON.parse(newDiagram!.causes)
+    };
+    
+    res.status(201).json(diagramData);
+  } catch (error) {
+    console.error('Error creating diagram:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 // GET /user/{user_id}/diagrams - Get all diagrams for a specific user
 app.get('/user/:userId/diagrams', async (req, res) => {
   try {

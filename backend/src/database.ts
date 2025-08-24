@@ -780,6 +780,22 @@ export class Database {
     });
   }
 
+  public createDiagram(userId: string, problem: string): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const diagramId = uuidv4();
+      const emptyCauses = JSON.stringify([]);
+      
+      this.db.run(
+        'INSERT INTO diagrams (id, user_id, problem, causes) VALUES (?, ?, ?, ?)',
+        [diagramId, userId, problem, emptyCauses],
+        function(err) {
+          if (err) reject(err);
+          else resolve(diagramId);
+        }
+      );
+    });
+  }
+
   public close(): void {
     this.db.close();
   }

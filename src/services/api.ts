@@ -37,6 +37,8 @@ export const diagramAPI = {
   getByUserIdAndId: (userId: string, diagramId: string) => 
     api.get<Diagram>(`/user/${userId}/diagram/${diagramId}`),
   getById: (diagramId: string) => api.get<Diagram>(`/diagram/${diagramId}`),
+  createDiagram: (userId: string, problem: string) =>
+    api.post<Diagram>(`/user/${userId}/diagram`, { problem }),
   updateDiagram: (diagram: Diagram) =>
     api.post<Diagram>(`/diagram/${diagram.id}`, diagram),
   deleteDiagram: (diagramId: string) =>

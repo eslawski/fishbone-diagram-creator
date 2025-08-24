@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, Row, Col, Typography, Spin, Alert, Modal, message } from "antd";
+import { Card, Row, Col, Typography, Spin, Alert, Modal, message, Button } from "antd";
 import { Link } from "react-router-dom";
 import {
   userAPI,
@@ -11,7 +11,9 @@ import {
 import {
   DeleteOutlined,
   EditOutlined,
+  PlusOutlined,
 } from "@ant-design/icons";
+import NewDiagramModal from "../NewDiagramModal";
 
 const { Title, Text } = Typography;
 
@@ -29,6 +31,8 @@ const HomePage: React.FC = () => {
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [diagramToDelete, setDiagramToDelete] = useState<{ id: string; problem: string } | null>(null);
   const [deleting, setDeleting] = useState(false);
+  const [newDiagramModalVisible, setNewDiagramModalVisible] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<{ id: string; name: string } | null>(null);
 
   useEffect(() => {
     const fetchUsersAndDiagrams = async () => {
@@ -119,6 +123,18 @@ const HomePage: React.FC = () => {
     setDiagramToDelete(null);
   };
 
+  const handleNewDiagramClick = (user: { id: string; name: string }) => {
+    setSelectedUser(user);
+    setNewDiagramModalVisible(true);
+  };
+
+  const handleNewDiagramCancel = () => {
+    setNewDiagramModalVisible(false);
+    setSelectedUser(null);
+  };
+
+
+
   if (loading) {
     return (
       <div style={{ textAlign: "center", padding: "40px" }}>
@@ -164,7 +180,7 @@ const HomePage: React.FC = () => {
 
       {usersWithDiagrams.map(({ user, diagrams }) => (
         <div key={user.id} style={{ marginBottom: "48px" }}>
-          <Title level={4}>{user.name}'s Diagrams</Title>
+          <Title level={4}>{user.name}'s Diagrams <Button className="new-diagram-button" size="small" icon={<PlusOutlined />} onClick={() => handleNewDiagramClick(user)} /></Title>
 
           {diagrams.length === 0 ? (
             <Card>
@@ -217,6 +233,16 @@ const HomePage: React.FC = () => {
           This action cannot be undone.
         </p>
       </Modal>
+
+      {/* New Diagram Modal */}
+      {selectedUser && (
+        <NewDiagramModal
+          isOpen={newDiagramModalVisible}
+          userId={selectedUser.id}
+          userName={selectedUser.name}
+          onCancel={handleNewDiagramCancel}
+        />
+      )}
     </div>
   );
 };
