@@ -1,6 +1,10 @@
 # Fishbone Diagram Creator
 
-A full-stack application for creating and managing fishbone (Ishikawa) diagrams with a React frontend and Express.js backend.
+A full-stack application for creating and managing fishbone diagrams (aka. Ishikawa diagrams, aka. cause-and-effect diagrams) with a React frontend and Express.js backend.
+
+Note:
+- The rendering of the fishbone diagram is handled by https://github.com/hophiphip/react-fishbone which in turn uses [React Flow](https://reactflow.dev/).
+- GenAI was used to help build the application, primarily the backend server.
 
 ## Features
 
