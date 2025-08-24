@@ -8,11 +8,7 @@ import {
   type Diagram,
   type Cause,
 } from "../../services/api";
-import {
-  DeleteOutlined,
-  EditOutlined,
-  PlusOutlined,
-} from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 import NewDiagramModal from "../NewDiagramModal";
 
 const { Title, Text } = Typography;
@@ -29,10 +25,16 @@ const HomePage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
-  const [diagramToDelete, setDiagramToDelete] = useState<{ id: string; problem: string } | null>(null);
+  const [diagramToDelete, setDiagramToDelete] = useState<{
+    id: string;
+    problem: string;
+  } | null>(null);
   const [deleting, setDeleting] = useState(false);
   const [newDiagramModalVisible, setNewDiagramModalVisible] = useState(false);
-  const [selectedUser, setSelectedUser] = useState<{ id: string; name: string } | null>(null);
+  const [selectedUser, setSelectedUser] = useState<{
+    id: string;
+    name: string;
+  } | null>(null);
 
   useEffect(() => {
     const fetchUsersAndDiagrams = async () => {
@@ -98,21 +100,23 @@ const HomePage: React.FC = () => {
     try {
       setDeleting(true);
       await diagramAPI.deleteDiagram(diagramToDelete.id);
-      
+
       // Remove the deleted diagram from state
-      setUsersWithDiagrams(prev => 
-        prev.map(userSection => ({
+      setUsersWithDiagrams((prev) =>
+        prev.map((userSection) => ({
           ...userSection,
-          diagrams: userSection.diagrams.filter(d => d.id !== diagramToDelete.id)
+          diagrams: userSection.diagrams.filter(
+            (d) => d.id !== diagramToDelete.id
+          ),
         }))
       );
-      
-      message.success('Diagram deleted successfully');
+
+      message.success("Diagram deleted successfully");
       setDeleteModalVisible(false);
       setDiagramToDelete(null);
     } catch (error) {
-      console.error('Error deleting diagram:', error);
-      message.error('Failed to delete diagram. Please try again.');
+      console.error("Error deleting diagram:", error);
+      message.error("Failed to delete diagram. Please try again.");
     } finally {
       setDeleting(false);
     }
@@ -132,8 +136,6 @@ const HomePage: React.FC = () => {
     setNewDiagramModalVisible(false);
     setSelectedUser(null);
   };
-
-
 
   if (loading) {
     return (
@@ -180,18 +182,30 @@ const HomePage: React.FC = () => {
 
       {usersWithDiagrams.map(({ user, diagrams }) => (
         <div key={user.id} style={{ marginBottom: 64 }}>
-          <Title level={4}>{user.name}'s Diagrams <Button className="new-diagram-button" size="small" icon={<PlusOutlined />} onClick={() => handleNewDiagramClick(user)} /></Title>
+          <Title level={4}>
+            {user.name}'s Diagrams{" "}
+            <Button
+              style={{ marginLeft: 6 }}
+              className="new-diagram-button"
+              type="primary"
+              size="small"
+              icon={<PlusOutlined />}
+              onClick={() => handleNewDiagramClick(user)}
+            />
+          </Title>
 
           {diagrams.length === 0 ? (
             <Card>
               <Text type="secondary">No diagrams created yet.</Text>
             </Card>
           ) : (
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fill, 300px)',
-              gap: '16px',
-            }}>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fill, 300px)",
+                gap: "16px",
+              }}
+            >
               {diagrams.map((diagram) => (
                 <Card
                   key={diagram.id}
@@ -200,7 +214,10 @@ const HomePage: React.FC = () => {
                     <Link to={`/diagram/${diagram.id}`}>
                       <EditOutlined key="edit" />
                     </Link>,
-                    <DeleteOutlined key="delete" onClick={() => handleDeleteClick(diagram)} />,
+                    <DeleteOutlined
+                      key="delete"
+                      onClick={() => handleDeleteClick(diagram)}
+                    />,
                   ]}
                 >
                   <div>
@@ -230,11 +247,10 @@ const HomePage: React.FC = () => {
         okButtonProps={{ danger: true }}
       >
         <p>
-          Are you sure you want to delete the diagram <strong>{diagramToDelete?.problem}</strong>?
+          Are you sure you want to delete the diagram{" "}
+          <strong>{diagramToDelete?.problem}</strong>?
         </p>
-        <p style={{ color: '#ff4d4f' }}>
-          This action cannot be undone.
-        </p>
+        <p style={{ color: "#ff4d4f" }}>This action cannot be undone.</p>
       </Modal>
 
       {/* New Diagram Modal */}
