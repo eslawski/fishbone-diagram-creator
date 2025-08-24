@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Collapse, Tooltip } from "antd";
+import { Button, Collapse, Tooltip, Modal } from "antd";
 import {
   SisternodeOutlined,
   EditOutlined,
@@ -21,6 +21,7 @@ const CauseCollapse: React.FC<CauseCollapseProps> = ({
   const { id, name, causes } = cause;
   const [isEditCauseModalOpen, setIsEditCauseModalOpen] = useState(false);
   const [isNewCauseModalOpen, setIsNewCauseModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const dispatch = useAppDispatch();
 
   const genExtra = (id: number) => (
@@ -55,7 +56,7 @@ const CauseCollapse: React.FC<CauseCollapseProps> = ({
           size="small"
           icon={<DeleteOutlined />}
           onClick={(event) => {
-            dispatch(deleteCause({ causeId: id }));
+            setIsDeleteModalOpen(true);
             event.stopPropagation(); // Stops collapse from being triggered
           }}
         />
@@ -121,6 +122,27 @@ const CauseCollapse: React.FC<CauseCollapseProps> = ({
         onOk={() => setIsNewCauseModalOpen(false)}
         onCancel={() => setIsNewCauseModalOpen(false)}
       />
+
+      {/* Delete Confirmation Modal */}
+      <Modal
+        title="Delete Cause"
+        open={isDeleteModalOpen}
+        onOk={() => {
+          dispatch(deleteCause({ causeId: id }));
+          setIsDeleteModalOpen(false);
+        }}
+        onCancel={() => setIsDeleteModalOpen(false)}
+        okText="Delete"
+        cancelText="Cancel"
+        okButtonProps={{ danger: true }}
+      >
+        <p>
+          Are you sure you want to delete the cause <strong>{name}</strong>?
+        </p>
+        <p style={{ color: '#ff4d4f' }}>
+          This action cannot be undone and <strong>will also delete all sub-causes.</strong>
+        </p>
+      </Modal>
     </div>
   );
 };
