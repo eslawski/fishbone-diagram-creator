@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, Row, Col, Typography, Spin, Alert, Button } from "antd";
+import { Card, Row, Col, Typography, Spin, Alert, Modal, message } from "antd";
 import { Link } from "react-router-dom";
 import {
   userAPI,
@@ -8,9 +8,7 @@ import {
   type Diagram,
   type Cause,
 } from "../../services/api";
-import FishboneDiagram from "../FishboneDiagram";
 import {
-  DeleteColumnOutlined,
   DeleteOutlined,
   EditOutlined,
 } from "@ant-design/icons";
@@ -28,6 +26,9 @@ const HomePage: React.FC = () => {
   >([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+  const [diagramToDelete, setDiagramToDelete] = useState<{ id: string; problem: string } | null>(null);
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     const fetchUsersAndDiagrams = async () => {
@@ -81,6 +82,42 @@ const HomePage: React.FC = () => {
 
     fetchUsersAndDiagrams();
   }, []);
+
+  const handleDeleteClick = (diagram: { id: string; problem: string }) => {
+    setDiagramToDelete(diagram);
+    setDeleteModalVisible(true);
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (!diagramToDelete) return;
+
+    try {
+      setDeleting(true);
+      await diagramAPI.deleteDiagram(diagramToDelete.id);
+      
+      // Remove the deleted diagram from state
+      setUsersWithDiagrams(prev => 
+        prev.map(userSection => ({
+          ...userSection,
+          diagrams: userSection.diagrams.filter(d => d.id !== diagramToDelete.id)
+        }))
+      );
+      
+      message.success('Diagram deleted successfully');
+      setDeleteModalVisible(false);
+      setDiagramToDelete(null);
+    } catch (error) {
+      console.error('Error deleting diagram:', error);
+      message.error('Failed to delete diagram. Please try again.');
+    } finally {
+      setDeleting(false);
+    }
+  };
+
+  const handleDeleteCancel = () => {
+    setDeleteModalVisible(false);
+    setDiagramToDelete(null);
+  };
 
   if (loading) {
     return (
@@ -143,10 +180,7 @@ const HomePage: React.FC = () => {
                       <Link to={`/diagram/${diagram.id}`}>
                         <EditOutlined key="edit" />
                       </Link>,
-                      <DeleteOutlined
-                        key="delete"
-                        onClick={() => alert(diagram.id)}
-                      />,
+                      <DeleteOutlined key="delete" onClick={() => handleDeleteClick(diagram)} />,
                     ]}
                   >
                     <div>
@@ -164,6 +198,25 @@ const HomePage: React.FC = () => {
           )}
         </div>
       ))}
+
+      {/* Delete Confirmation Modal */}
+      <Modal
+        title="Delete Diagram"
+        open={deleteModalVisible}
+        onOk={handleDeleteConfirm}
+        onCancel={handleDeleteCancel}
+        confirmLoading={deleting}
+        okText="Delete"
+        cancelText="Cancel"
+        okButtonProps={{ danger: true }}
+      >
+        <p>
+          Are you sure you want to delete the diagram <strong>{diagramToDelete?.problem}</strong>?
+        </p>
+        <p style={{ color: '#ff4d4f' }}>
+          This action cannot be undone.
+        </p>
+      </Modal>
     </div>
   );
 };

@@ -39,6 +39,8 @@ export const diagramAPI = {
   getById: (diagramId: string) => api.get<Diagram>(`/diagram/${diagramId}`),
   updateDiagram: (diagram: Diagram) =>
     api.post<Diagram>(`/diagram/${diagram.id}`, diagram),
+  deleteDiagram: (diagramId: string) =>
+    api.delete(`/diagram/${diagramId}`),
 };
 
 // Health check

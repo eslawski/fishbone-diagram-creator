@@ -159,6 +159,31 @@ app.post('/diagram/:diagramId', async (req, res) => {
   }
 });
 
+// DELETE /diagram/{diagram_id} - Delete diagram by ID
+app.delete('/diagram/:diagramId', async (req, res) => {
+  try {
+    const { diagramId } = req.params;
+    
+    // Check if diagram exists
+    const existingDiagram = await db.getDiagramById(diagramId);
+    if (!existingDiagram) {
+      return res.status(404).json({ error: 'Diagram not found' });
+    }
+    
+    // Delete the diagram
+    const success = await db.deleteDiagramById(diagramId);
+    
+    if (!success) {
+      return res.status(500).json({ error: 'Failed to delete diagram' });
+    }
+    
+    res.json({ message: 'Diagram deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting diagram:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 // Health check endpoint
 app.get('/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() });

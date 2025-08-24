@@ -767,6 +767,19 @@ export class Database {
     });
   }
 
+  public deleteDiagramById(diagramId: string): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      this.db.run(
+        'DELETE FROM diagrams WHERE id = ?',
+        [diagramId],
+        function(err) {
+          if (err) reject(err);
+          else resolve(this.changes > 0);
+        }
+      );
+    });
+  }
+
   public close(): void {
     this.db.close();
   }
