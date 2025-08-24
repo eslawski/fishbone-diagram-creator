@@ -103,7 +103,10 @@ const CauseCollapse: React.FC<CauseCollapseProps> = ({
         key={1}
         defaultActiveKey={[1]}
         items={[collapseItem]}
-        style={{ marginBottom: 12, backgroundColor: !parentCauseId ? "#B2BEB5" : "#F2F2F2" }}
+        style={{
+          marginBottom: 12,
+          backgroundColor: !parentCauseId ? "#C4C4C4" : "#F2F2F2",
+        }}
       />
 
       <CauseModal
@@ -139,8 +142,9 @@ const CauseCollapse: React.FC<CauseCollapseProps> = ({
         <p>
           Are you sure you want to delete the cause <strong>{name}</strong>?
         </p>
-        <p style={{ color: '#ff4d4f' }}>
-          This action cannot be undone and <strong>will also delete all sub-causes.</strong>
+        <p style={{ color: "#ff4d4f" }}>
+          This action cannot be undone and{" "}
+          <strong>will also delete all sub-causes.</strong>
         </p>
       </Modal>
     </div>

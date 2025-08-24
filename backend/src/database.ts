@@ -9,6 +9,13 @@ interface User {
   name: string;
 }
 
+interface Cause {
+  id: number;
+  name: string;
+  notes?: string;
+  causes: Cause[];
+}
+
 interface Diagram {
   id: string;
   user_id: string;
@@ -783,11 +790,52 @@ export class Database {
   public createDiagram(userId: string, problem: string): Promise<string> {
     return new Promise((resolve, reject) => {
       const diagramId = uuidv4();
-      const emptyCauses = JSON.stringify([]);
+      
+      // Initialize with predefined top-level causes
+      const predefinedCauses: Cause[] = [
+        {
+          id: 1,
+          name: "Materials",
+          notes: "Issues related to materials, supplies, or resources",
+          causes: []
+        },
+        {
+          id: 2,
+          name: "Measurement",
+          notes: "Issues related to measurement, monitoring, or data collection",
+          causes: []
+        },
+        {
+          id: 3,
+          name: "Environment",
+          notes: "Issues related to environmental factors or conditions",
+          causes: []
+        },
+        {
+          id: 4,
+          name: "Method",
+          notes: "Issues related to processes, procedures, or methodologies",
+          causes: []
+        },
+        {
+          id: 5,
+          name: "Machine",
+          notes: "Issues related to equipment, tools, or machinery",
+          causes: []
+        },
+        {
+          id: 6,
+          name: "People",
+          notes: "Issues related to human factors, skills, or training",
+          causes: []
+        }
+      ];
+      
+      const initialCauses = JSON.stringify(predefinedCauses);
       
       this.db.run(
         'INSERT INTO diagrams (id, user_id, problem, causes) VALUES (?, ?, ?, ?)',
-        [diagramId, userId, problem, emptyCauses],
+        [diagramId, userId, problem, initialCauses],
         function(err) {
           if (err) reject(err);
           else resolve(diagramId);

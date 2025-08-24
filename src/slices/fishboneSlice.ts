@@ -1,4 +1,4 @@
-import { createSlice, type GetThunkAPI, type AsyncThunkConfig } from "@reduxjs/toolkit";
+import { createSlice, type GetThunkAPI } from "@reduxjs/toolkit";
 import { diagramAPI, type Diagram } from "../services/api";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
@@ -17,7 +17,7 @@ export interface FishboneState {
 }
 
 // Helper function to get the current diagram from the state as deep copy because of immer
-function getCurrentDiagram(thunkAPI: GetThunkAPI<AsyncThunkConfig>): Diagram {
+function getCurrentDiagram(thunkAPI: GetThunkAPI<{ state: RootState }>): Diagram {
   const state = thunkAPI.getState() as RootState;
 
   const diagram = state.fishbone.diagram;
