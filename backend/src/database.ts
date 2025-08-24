@@ -328,6 +328,117 @@ export class Database {
               ]
             }
           ]
+        },
+        {
+          problem: "Website traffic declining",
+          causes: [
+            {
+              id: uuidv4(),
+              name: "SEO Issues",
+              causes: [
+                { id: uuidv4(), name: "Keyword Optimization", causes: [] },
+                { id: uuidv4(), name: "Technical SEO", causes: [] }
+              ]
+            },
+            {
+              id: uuidv4(),
+              name: "Content Quality",
+              causes: [
+                { id: uuidv4(), name: "Content Relevance", causes: [] },
+                { id: uuidv4(), name: "Update Frequency", causes: [] }
+              ]
+            },
+            {
+              id: uuidv4(),
+              name: "User Experience",
+              causes: [
+                { id: uuidv4(), name: "Page Speed", causes: [] },
+                { id: uuidv4(), name: "Mobile Optimization", causes: [] }
+              ]
+            },
+            {
+              id: uuidv4(),
+              name: "Competition",
+              causes: [
+                { id: uuidv4(), name: "Market Changes", causes: [] },
+                { id: uuidv4(), name: "Competitor Strategies", causes: [] }
+              ]
+            }
+          ]
+        },
+        {
+          problem: "Lead generation not meeting targets",
+          causes: [
+            {
+              id: uuidv4(),
+              name: "Lead Magnet Strategy",
+              causes: [
+                { id: uuidv4(), name: "Offer Relevance", causes: [] },
+                { id: uuidv4(), name: "Value Proposition", causes: [] }
+              ]
+            },
+            {
+              id: uuidv4(),
+              name: "Landing Page Performance",
+              causes: [
+                { id: uuidv4(), name: "Conversion Rate", causes: [] },
+                { id: uuidv4(), name: "User Experience", causes: [] }
+              ]
+            },
+            {
+              id: uuidv4(),
+              name: "Traffic Sources",
+              causes: [
+                { id: uuidv4(), name: "Organic Traffic", causes: [] },
+                { id: uuidv4(), name: "Paid Advertising", causes: [] }
+              ]
+            },
+            {
+              id: uuidv4(),
+              name: "Follow-up Process",
+              causes: [
+                { id: uuidv4(), name: "Lead Nurturing", causes: [] },
+                { id: uuidv4(), name: "Sales Process", causes: [] }
+              ]
+            }
+          ]
+        },
+        {
+          problem: "Customer retention rate dropping",
+          causes: [
+            {
+              id: uuidv4(),
+              name: "Customer Service",
+              causes: [
+                { id: uuidv4(), name: "Response Time", causes: [] },
+                { id: uuidv4(), name: "Service Quality", causes: [] }
+              ]
+            },
+            {
+              id: uuidv4(),
+              name: "Product Experience",
+              causes: [
+                { id: uuidv4(), name: "Feature Satisfaction", causes: [] },
+                { id: uuidv4(), name: "User Interface", causes: [] }
+              ]
+            },
+            {
+              id: uuidv4(),
+              name: "Communication",
+              causes: [
+                { id: uuidv4(), name: "Update Frequency", causes: [] },
+                { id: uuidv4(), name: "Relevance", causes: [] }
+              ]
+            },
+            {
+              id: uuidv4(),
+              name: "Competitive Pressure",
+              causes: [
+                { id: uuidv4(), name: "Market Alternatives", causes: [] },
+                { id: uuidv4(), name: "Pricing Changes", causes: [] }
+              ]
+            }
+          ]
         }
       ];
 
@@ -443,6 +554,80 @@ export class Database {
               ]
             }
           ]
+        },
+        {
+          problem: "Customer complaints increasing",
+          causes: [
+            {
+              id: uuidv4(),
+              name: "Product Quality",
+              causes: [
+                { id: uuidv4(), name: "Defect Rate", causes: [] },
+                { id: uuidv4(), name: "Performance Issues", causes: [] }
+              ]
+            },
+            {
+              id: uuidv4(),
+              name: "Service Delivery",
+              causes: [
+                { id: uuidv4(), name: "Timeliness", causes: [] },
+                { id: uuidv4(), name: "Accuracy", causes: [] }
+              ]
+            },
+            {
+              id: uuidv4(),
+              name: "Communication",
+              causes: [
+                { id: uuidv4(), name: "Clarity", causes: [] },
+                { id: uuidv4(), name: "Frequency", causes: [] }
+              ]
+            },
+            {
+              id: uuidv4(),
+              name: "Expectation Management",
+              causes: [
+                { id: uuidv4(), name: "Setting Realistic Goals", causes: [] },
+                { id: uuidv4(), name: "Proactive Updates", causes: [] }
+              ]
+            }
+          ]
+        },
+        {
+          problem: "Customer onboarding process too complex",
+          causes: [
+            {
+              id: uuidv4(),
+              name: "Process Design",
+              causes: [
+                { id: uuidv4(), name: "Step Complexity", causes: [] },
+                { id: uuidv4(), name: "Documentation Quality", causes: [] }
+              ]
+            },
+            {
+              id: uuidv4(),
+              name: "Technology",
+              causes: [
+                { id: uuidv4(), name: "Platform Usability", causes: [] },
+                { id: uuidv4(), name: "Integration Issues", causes: [] }
+              ]
+            },
+            {
+              id: uuidv4(),
+              name: "Training",
+              causes: [
+                { id: uuidv4(), name: "Customer Education", causes: [] },
+                { id: uuidv4(), name: "Support Resources", causes: [] }
+              ]
+            },
+            {
+              id: uuidv4(),
+              name: "Support Availability",
+              causes: [
+                { id: uuidv4(), name: "Help Desk Access", causes: [] },
+                { id: uuidv4(), name: "Response Time", causes: [] }
+              ]
+            }
+          ]
         }
       ];
 
@@ -518,43 +703,6 @@ export class Database {
               causes: [
                 { id: uuidv4(), name: "Production Scheduling", causes: [] },
                 { id: uuidv4(), name: "Capacity Planning", causes: [] }
-              ]
-            }
-          ]
-        },
-        {
-          problem: "High production costs",
-          causes: [
-            {
-              id: uuidv4(),
-              name: "Energy Usage",
-              causes: [
-                { id: uuidv4(), name: "Equipment Efficiency", causes: [] },
-                { id: uuidv4(), name: "Process Optimization", causes: [] }
-              ]
-            },
-            {
-              id: uuidv4(),
-              name: "Labor Costs",
-              causes: [
-                { id: uuidv4(), name: "Productivity Levels", causes: [] },
-                { id: uuidv4(), name: "Overtime Usage", causes: [] }
-              ]
-            },
-            {
-              id: uuidv4(),
-              name: "Waste Management",
-              causes: [
-                { id: uuidv4(), name: "Scrap Reduction", causes: [] },
-                { id: uuidv4(), name: "Recycling Programs", causes: [] }
-              ]
-            },
-            {
-              id: uuidv4(),
-              name: "Overhead",
-              causes: [
-                { id: uuidv4(), name: "Facility Costs", causes: [] },
-                { id: uuidv4(), name: "Administrative Expenses", causes: [] }
               ]
             }
           ]
