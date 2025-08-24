@@ -11,7 +11,7 @@ const AppLayout: React.FC = () => {
     <Layout style={{ height: '100vh', width: '100vw' }}>
       <Header style={{ display: 'flex', alignItems: 'center' }}>
         <Link to="/">
-          <div style={{ color: "white", fontSize: 24 }}>Fishbone Creator</div>
+          <div style={{ color: "white", fontSize: 24 }}>🐟 Fishbone Diagram Creator</div>
         </Link>
       </Header>
       <Content style={{margin: 24, height: "100%", width: "100%"}}>

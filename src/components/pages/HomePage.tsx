@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, Row, Col, Typography, Spin, Alert, Modal, message, Button } from "antd";
+import { Card, Typography, Spin, Alert, Modal, message, Button } from "antd";
 import { Link } from "react-router-dom";
 import {
   userAPI,
@@ -179,7 +179,7 @@ const HomePage: React.FC = () => {
       </Text>
 
       {usersWithDiagrams.map(({ user, diagrams }) => (
-        <div key={user.id} style={{ marginBottom: "48px" }}>
+        <div key={user.id} style={{ marginBottom: 64 }}>
           <Title level={4}>{user.name}'s Diagrams <Button className="new-diagram-button" size="small" icon={<PlusOutlined />} onClick={() => handleNewDiagramClick(user)} /></Title>
 
           {diagrams.length === 0 ? (
@@ -187,30 +187,33 @@ const HomePage: React.FC = () => {
               <Text type="secondary">No diagrams created yet.</Text>
             </Card>
           ) : (
-            <Row gutter={[16, 16]}>
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fill, 300px)',
+              gap: '16px',
+            }}>
               {diagrams.map((diagram) => (
-                <Col xs={24} sm={12} md={8} lg={6} key={diagram.id}>
-                  <Card
-                    style={{ height: "100%" }}
-                    actions={[
-                      <Link to={`/diagram/${diagram.id}`}>
-                        <EditOutlined key="edit" />
-                      </Link>,
-                      <DeleteOutlined key="delete" onClick={() => handleDeleteClick(diagram)} />,
-                    ]}
-                  >
-                    <div>
-                      <Title style={{ marginBottom: "12px", fontSize: "16px" }}>
-                        {diagram.problem}
-                      </Title>
-                      <Text type="secondary">
-                        {diagram.causes.length} cause categories
-                      </Text>
-                    </div>
-                  </Card>
-                </Col>
+                <Card
+                  key={diagram.id}
+                  style={{ height: "100%" }}
+                  actions={[
+                    <Link to={`/diagram/${diagram.id}`}>
+                      <EditOutlined key="edit" />
+                    </Link>,
+                    <DeleteOutlined key="delete" onClick={() => handleDeleteClick(diagram)} />,
+                  ]}
+                >
+                  <div>
+                    <Title style={{ marginBottom: "12px", fontSize: "16px" }}>
+                      {diagram.problem}
+                    </Title>
+                    <Text type="secondary">
+                      {diagram.causes.length} cause categories
+                    </Text>
+                  </div>
+                </Card>
               ))}
-            </Row>
+            </div>
           )}
         </div>
       ))}
