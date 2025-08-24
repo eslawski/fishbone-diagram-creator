@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Fishbone from "@hophiphip/react-fishbone";
 import type { FishboneNode } from "@hophiphip/react-fishbone";
 import { type Cause } from "../slices/fishboneSlice";
@@ -20,12 +20,11 @@ function transformCausesToNodes(causes: Cause[]) {
   });
 }
 
-// Root node does not handle long text well, so hacking away the overflow styles as a workaround
-function rootNodeHack(problem: string) {
-  setTimeout(() => {
-    const span = Array.from(document.querySelectorAll("span")).find((el) => el?.textContent?.includes(problem));
-    const parent = span?.closest(".react-flow__node");
-    removeTextOverflowStyles(parent as HTMLElement);
+// Nodes do not handle long text well, so hacking away the overflow styles as a workaround
+function nodeHack() {
+  const nodes = document.querySelectorAll(".react-flow__node");
+  nodes.forEach((node) => {
+    removeTextOverflowStyles(node as HTMLElement);
   });
 }
 
@@ -48,25 +47,24 @@ interface FishboneDiagramProps {
 
 const FishboneDiagram: React.FC<FishboneDiagramProps> = ({ diagram }) => {
   const { problem, causes } = diagram;
+  const [renderKey, setRenderKey] = useState(0);
 
   const items: FishboneNode = {
     label: problem,
     children: transformCausesToNodes(causes),
   };
 
-  // Create a unique key that changes when diagram changes to force complete rerender
-  const diagramKey = JSON.stringify(diagram);
+  // Force re-render the entire diagram when it changes to prevent layout issues
+  useEffect(() => setRenderKey(prev => prev + 1), [diagram]);
 
   return (
     <div style={{ width: "100%", height: "100%" }}>
       <Fishbone
-        key={diagramKey}
+        key={renderKey}
         items={items}
         reactFlowProps={{
           onViewportChange: () => {
-            if (problem) {
-              rootNodeHack(problem);
-            }
+            nodeHack();
           },
         }}
       />
