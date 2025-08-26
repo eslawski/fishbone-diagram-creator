@@ -1,8 +1,15 @@
 import sqlite3 from 'sqlite3';
 import { v4 as uuidv4 } from 'uuid';
 import path from 'path';
+import fs from 'fs';
 
-const dbPath = path.join(__dirname, '../db/fishbone.db');
+// Ensure the database directory exists
+const dbDir = path.join(__dirname, '../db');
+if (!fs.existsSync(dbDir)) {
+  fs.mkdirSync(dbDir, { recursive: true });
+}
+
+const dbPath = path.join(dbDir, 'fishbone.db');
 
 interface User {
   id: string;
