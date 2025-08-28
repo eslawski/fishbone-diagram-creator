@@ -2,6 +2,8 @@
 
 A full-stack application for creating and managing fishbone diagrams (aka. Ishikawa diagrams, aka. cause-and-effect diagrams) with a React frontend and Express.js backend.
 
+[Video demo](screenshots/demo-video.mp4)
+
 ![Demo Screenshot](screenshots/demo.png)
 
 Note:
