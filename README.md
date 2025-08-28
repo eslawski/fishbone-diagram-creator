@@ -4,10 +4,8 @@ A full-stack application for creating and managing fishbone diagrams (aka. Ishik
 
 GenAI was used to help build this application, primarily the backend server.
 
-[Video demo](screenshots/demo-video.mp4)
-
 Screenshot:
-![Demo Screenshot](screenshots/demo.png)
+![Demo Screenshot](demos/demo.png)
 
 Note:
 - The rendering of the fishbone diagram is handled by https://github.com/hophiphip/react-fishbone which in turn uses [React Flow](https://reactflow.dev/).
