@@ -70,7 +70,7 @@ const BackendTest: React.FC = () => {
   }
 
   return (
-    <div style={{ padding: '20px', maxWidth: '1200px', margin: '0 auto' }}>
+    <div style={{ padding: '20px', maxWidth: '1600px', margin: '0 auto' }}>
       <Title level={2}>Backend Integration Test</Title>
       
       {error && (
@@ -85,7 +85,7 @@ const BackendTest: React.FC = () => {
 
       <div style={{ display: 'flex', gap: '20px' }}>
         {/* Users List */}
-        <Card title="Users" style={{ flex: 1 }}>
+        <Card title="Users" style={{ flex: '0 0 400px' }}>
           <List
             dataSource={users}
             renderItem={(user) => (
@@ -111,7 +111,7 @@ const BackendTest: React.FC = () => {
 
         {/* User Diagrams */}
         {selectedUser && (
-          <Card title={`${selectedUser.name}'s Diagrams`} style={{ flex: 1 }}>
+          <Card title={`${selectedUser.name}'s Diagrams`} style={{ flex: '0 0 400px' }}>
             {userDiagrams.length === 0 ? (
               <Text type="secondary">No diagrams found for this user.</Text>
             ) : (
@@ -154,8 +154,10 @@ const BackendTest: React.FC = () => {
                 padding: '10px', 
                 borderRadius: '4px',
                 fontSize: '12px',
-                maxHeight: '300px',
-                overflow: 'auto'
+                maxHeight: '400px',
+                overflow: 'auto',
+                whiteSpace: 'pre-wrap',
+                wordBreak: 'break-word'
               }}>
                 {JSON.stringify(selectedDiagram.causes, null, 2)}
               </pre>
