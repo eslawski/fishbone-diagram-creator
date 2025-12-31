@@ -153,5 +153,5 @@ npm start            # Start production build
 
 ### Backend
 - Express.js with TypeScript
-- SQLite3 for database
+- SQLite3 for the database
 
